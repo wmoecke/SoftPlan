@@ -18,7 +18,6 @@ import javafx.util.Pair;
 public class GeradorObservacaoCliente 
         implements GeradorObservacaoInterface
 {
-
     //Textos prÚ-definidos
     static final String umoNota = "Fatura da nota fiscal de simples remessa: ";
     //Identificador da entidade
