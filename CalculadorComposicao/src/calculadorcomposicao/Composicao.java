@@ -17,7 +17,7 @@ class Composicao {
     String descricaoItemComposicao;
     String unidadeItem;
     Double quantidadeComposicao;
-    Float valorUnitario;
+    Double valorUnitario;
     
     Composicao() {
         codigoComposicao = 0;
@@ -28,6 +28,29 @@ class Composicao {
         descricaoItemComposicao = "";
         unidadeItem = "";
         quantidadeComposicao = 0.0;
-        valorUnitario = 0.0f;
+        valorUnitario = 0.0;
+    }
+    
+    Composicao(
+            Integer codCom,
+            String desCom,
+            String unCom,
+            String tpItem,
+            Integer codItem,
+            String desItCom,
+            String unItem,
+            Double qtdeCom,
+            Double vlrUn
+        ) 
+    {
+        codigoComposicao = codCom;
+        descricaoComposicao = desCom;
+        unidadeComposicao = unCom;
+        tipoItem = tpItem;
+        codigoItem = codItem;
+        descricaoItemComposicao = desItCom;
+        unidadeItem = unItem;
+        quantidadeComposicao = qtdeCom;
+        valorUnitario = vlrUn;
     }
 }
