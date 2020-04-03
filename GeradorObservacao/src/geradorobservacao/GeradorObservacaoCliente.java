@@ -53,11 +53,11 @@ public class GeradorObservacaoCliente
         
         StringBuilder cod = new StringBuilder();
         NumberFormat n = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
-        Float t = 0.0f;
-        for (Iterator<Pair<Integer, Float>> iterator = lista.iterator(); iterator.hasNext();) {
-            Pair<Integer, Float> next = iterator.next();
+        Double t = 0.0;
+        for (Iterator<Pair<Integer, Double>> iterator = lista.iterator(); iterator.hasNext();) {
+            Pair<Integer, Double> next = iterator.next();
             Integer c = next.getKey();
-            Float v = next.getValue();
+            Double v = next.getValue();
             String vs = String.format(" cujo valor é %s", n.format(v));
             String s = "";
             if( cod.toString() == null || cod.toString().length() <= 0 )

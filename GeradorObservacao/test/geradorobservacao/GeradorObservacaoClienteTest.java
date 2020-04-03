@@ -41,7 +41,7 @@ public class GeradorObservacaoClienteTest {
     @Test
     public void testAchaSeparadorListaNula() {
         System.out.println("testAchaSeparadorListaNula():");
-        List<Pair<Integer, Float>> lista = null;
+        List<Pair<Integer, Double>> lista = null;
         String expResult = "";
         String result = instance.achaSeparador(lista);
         System.out.println(result + '\n');
@@ -52,7 +52,7 @@ public class GeradorObservacaoClienteTest {
     @Test
     public void testAchaSeparadorListaVazia() {
         System.out.println("testAchaSeparadorListaVazia():");
-        List<Pair<Integer, Float>> lista = Collections.emptyList();
+        List<Pair<Integer, Double>> lista = Collections.emptyList();
         String expResult = "";
         String result = instance.achaSeparador(lista);
         System.out.println(result + '\n');
@@ -62,9 +62,9 @@ public class GeradorObservacaoClienteTest {
     @Test
     public void testAchaSeparadorUmaNota() {
         System.out.println("testAchaSeparadorUmaNota():");
-        List<Pair<Integer, Float>> lista;
+        List<Pair<Integer, Double>> lista;
         lista = Arrays.asList(
-                new Pair<Integer, Float>(1, 10.0f)
+                new Pair<Integer, Double>(1, 10.0)
             );
         String expResult = "1 cujo valor é R$ 10,00. Total = R$ 10,00";
         String result = instance.achaSeparador(lista);
@@ -75,9 +75,9 @@ public class GeradorObservacaoClienteTest {
     @Test
     public void testGeraObservacaoUmaNota() {
         System.out.println("testGeraObservacaoUmaNota():");
-        List<Pair<Integer, Float>> lista;
+        List<Pair<Integer, Double>> lista;
         lista = Arrays.asList(
-                new Pair<Integer, Float>(1, 10.0f)
+                new Pair<Integer, Double>(1, 10.0)
             );
         String expResult = "Fatura da nota fiscal de simples remessa: "
                 + "1 cujo valor é R$ 10,00. Total = R$ 10,00.";
@@ -89,12 +89,12 @@ public class GeradorObservacaoClienteTest {
     @Test
     public void testAchaSeparadorVariasNotas() {
         System.out.println("testAchaSeparadorVariasNotas():");
-        List<Pair<Integer, Float>> lista = Arrays.asList(
-                new Pair<Integer, Float>(1, 10.0f), 
-                new Pair<Integer, Float>(2, 35.0f), 
-                new Pair<Integer, Float>(3, 5.0f), 
-                new Pair<Integer, Float>(4, 1500.0f), 
-                new Pair<Integer, Float>(5, 0.3f)
+        List<Pair<Integer, Double>> lista = Arrays.asList(
+                new Pair<Integer, Double>(1, 10.0), 
+                new Pair<Integer, Double>(2, 35.0), 
+                new Pair<Integer, Double>(3, 5.0), 
+                new Pair<Integer, Double>(4, 1500.0), 
+                new Pair<Integer, Double>(5, 0.3)
             );
         String expResult = ""
                 + "1 cujo valor é R$ 10,00, "
@@ -110,12 +110,12 @@ public class GeradorObservacaoClienteTest {
     @Test
     public void testGeraObservacaoVariasNotas() {
         System.out.println("testGeraObservacaoVariasNotas():");
-        List<Pair<Integer, Float>> lista = Arrays.asList(
-                new Pair<Integer, Float>(1, 10.0f), 
-                new Pair<Integer, Float>(2, 35.0f), 
-                new Pair<Integer, Float>(3, 5.0f), 
-                new Pair<Integer, Float>(4, 1500.0f), 
-                new Pair<Integer, Float>(5, 0.3f)
+        List<Pair<Integer, Double>> lista = Arrays.asList(
+                new Pair<Integer, Double>(1, 10.0), 
+                new Pair<Integer, Double>(2, 35.0), 
+                new Pair<Integer, Double>(3, 5.0), 
+                new Pair<Integer, Double>(4, 1500.0), 
+                new Pair<Integer, Double>(5, 0.3)
             );
         String expResult = "Fatura das notas fiscais de simples remessa: "
                 + "1 cujo valor é R$ 10,00, "
