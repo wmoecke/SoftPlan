@@ -11,7 +11,7 @@ import static org.junit.Assert.*;
 
 /**
  *
- * Testes unitários da classe CalculadorComposicaoTest
+ * Testes unitários da classe CalculadorComposicao
  * @author Werner
  */
 public class CalculadorComposicaoTest {
