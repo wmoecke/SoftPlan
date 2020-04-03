@@ -1,6 +1,6 @@
 /*
  *
- * Classe de testes unitários para a Classe GeradorObservacaoClienteTest
+ * Classe de testes unitários para a Classe GeradorObservacaoCliente.
  */
 package geradorobservacao;
 
