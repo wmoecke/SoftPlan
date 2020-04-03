@@ -1,6 +1,6 @@
 /*
  *
- * Classe de testes unitários para a Classe CalculadorComposicaoTest.
+ * Classe de testes unitários para a Classe CalculadorComposicao.
  */
 package calculadorcomposicao;
 
