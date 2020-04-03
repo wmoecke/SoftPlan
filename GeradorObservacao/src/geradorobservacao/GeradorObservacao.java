@@ -14,7 +14,6 @@ import java.util.List;
 public class GeradorObservacao 
         implements GeradorObservacaoInterface
 {
-
     //Textos prÚ-definidos
     static final String umoNota = "Fatura da nota fiscal de simples remessa: ";
     //Identificador da entidade
