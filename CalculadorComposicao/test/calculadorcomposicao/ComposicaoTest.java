@@ -30,4 +30,8 @@ public class ComposicaoTest {
         assertNull(instance);
     }
     
+    @Test
+    public void testComposicao() {
+        fail("Nada a testar ainda.");
+    }
 }
