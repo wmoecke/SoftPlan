@@ -4,7 +4,11 @@
  */
 package calculadorcomposicao;
 
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.junit.After;
@@ -40,13 +44,18 @@ public class CalculadorComposicaoTest {
     
     @Test
     public void testLeArquivoEntrada() {
-        System.out.println("testLeArquivoEntrada():");
+        System.out.println("testLeArquivoEntrada():\n");
         JSONArray result = instance.leArquivoEntrada("entrada.json");
         assertNotNull(result);
         for (Iterator<JSONObject> iterator = result.iterator(); iterator.hasNext();)
         {
             JSONObject c = iterator.next();
-            System.out.println(c);
+            for (Iterator<Map.Entry> it = c.entrySet().iterator(); it.hasNext();)
+            {
+                Map.Entry currItem = it.next();
+                System.out.println(currItem.getKey() + ": " + currItem.getValue());
+            }
+            System.out.println("");
         }
     }
 }
