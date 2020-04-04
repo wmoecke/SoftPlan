@@ -1,7 +1,7 @@
 ## Solução: GeradorObservacao
 * O método `private String retornaCodigos(List lista)` da classe `GeradorObservacao` original viola um pouco o princípio de responsabilidade única (SRP): a meu ver, todo o bloco de código a partir da linha onde está o comentário `//Acha separador` até onde se fecha o loop `for` poderia estar contido dentro de um outro método, ex., `String achaSeparador(List lista)`, que faria as iterações na lista fornecida como parâmetro e retornaria a String com os valores já devidamente separados. Já no método `private String retornaCodigos(List lista)` a linha `return texto + cod;` seria simplesmente alterada para `return texto + achaSeparador(lista);`.
 * Um ponto crítico de tomada de decisão foi sobre qual approach adotar - a meu ver, são dois os caminhos possíveis:
-    1. Criar uma subclasse, `GeradorObservacaoCliente`, que herda as funções da classe `GeradorObservacao` original, fazendo somente a implementação (_override_) do método acima. Isso resultaria em uma economia de código (DRY).
+    1. Criar uma subclasse, `GeradorObservacaoCliente`, que herdaria as funções da classe `GeradorObservacao` original, fazendo somente a implementação (_override_) do método acima. Isso resultaria em uma economia de código (DRY).
     1. Criar uma classe desacoplada, cujo corpo seria quase um espelho da classe `GeradorObservacao` original, apenas mudando a implementação do método `public String achaSeparador(List lista)` a fim de atender ao requisito proposto.
 * Desvantagens:
     * Em (i), haveria um acoplamento entre as duas classes (pai e filho), acarretando consequências potencialmente "desastrosas"; supondo que algum dia a classe `GeradorObservacao` original fosse alterada, ela "quebraria" a(s) classe(s) filha(s).
