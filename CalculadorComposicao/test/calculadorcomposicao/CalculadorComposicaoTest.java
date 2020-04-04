@@ -4,6 +4,7 @@
  */
 package calculadorcomposicao;
 
+import java.util.Iterator;
 import java.util.List;
 import jdk.nashorn.internal.parser.JSONParser;
 import org.json.simple.JSONArray;
@@ -44,5 +45,10 @@ public class CalculadorComposicaoTest {
         System.out.println("testLeArquivoEntrada():");
         JSONArray result = instance.leArquivoEntrada("entrada.json");
         assertNotNull(result);
+        for (Iterator<JSONObject> iterator = result.iterator(); iterator.hasNext();)
+        {
+            JSONObject c = iterator.next();
+            System.out.println(c);
+        }
     }
 }
