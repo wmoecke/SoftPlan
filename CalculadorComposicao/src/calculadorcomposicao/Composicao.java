@@ -19,8 +19,8 @@ class Composicao {
     final Double quantidadeComposicao;
     Double valorUnitario;
     
-    /*
-     * @constructor
+    /**
+     *
      * Inicializa a classe com valores "default".
      */
     Composicao() {
@@ -35,9 +35,9 @@ class Composicao {
         valorUnitario = 0.0;
     }
     
-    /*
-     * @constructor
-     * Inicializa a classe com valores fornecidos como parâmetro.
+    /**
+     *
+     * Inicializa a classe com os valores fornecidos como parâmetro.
      */
     Composicao(
             Integer codCom,

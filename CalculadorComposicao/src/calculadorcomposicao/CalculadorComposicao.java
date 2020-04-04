@@ -24,12 +24,17 @@ public class CalculadorComposicao {
         // TODO code application logic here
     }
     
+    /**
+     * Lê o arquivo .json de entrada, devolve um JSONArray populado
+     * @param path o caminho do arquivo de entrada
+     * @return JSONArray populado
+     */
     JSONArray leArquivoEntrada(String path) {
         JSONArray entrada;
         //Cria o parse de tratamento
         JSONParser parser = new JSONParser();
         try {
-            //Salva no objeto JSONObject o que o parse tratou do arquivo
+            //Salva no objeto JSONArray o que o parse tratou do arquivo
             entrada = (JSONArray) parser.parse(new FileReader(
                     path));
             return entrada;
