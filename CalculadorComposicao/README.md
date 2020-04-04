@@ -1,1 +1,3 @@
 ## Solução: CalculadorComposicao
+* Foi criada a classe `Composicao` que permite guardarmos os valores lidos do arquivo de entrada em um objeto que possui todos os campos necessários. Os campos dessa classe foram definidos com o atributo `final` uma vez que não pretendemos alterar seus valores depois de setados pelo seu construtor.
+* A fim de facilitar o parsing do arquivo de entrada, foi importada a API JSON.simple, que pode ser baixada no seguinte [web site](http://code.google.com/p/json-simple/ "API JSON.simple no Google"). Essa API é bem pequena e provê muitas funcionalidades, sendo compatível com o padrão RFC 4627.

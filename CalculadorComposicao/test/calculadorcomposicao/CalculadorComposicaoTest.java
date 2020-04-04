@@ -4,6 +4,10 @@
  */
 package calculadorcomposicao;
 
+import java.util.List;
+import jdk.nashorn.internal.parser.JSONParser;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,8 +34,15 @@ public class CalculadorComposicaoTest {
         assertNull(instance);
     }
     
+//    @Test
+//    public void testCalculadorComposicao() {
+//        fail("Nada a testar ainda.");
+//    }
+    
     @Test
-    public void testCalculadorComposicao() {
-        fail("Nada a testar ainda.");
+    public void testLeArquivoEntrada() {
+        System.out.println("testLeArquivoEntrada():");
+        JSONArray result = instance.leArquivoEntrada("entrada.json");
+        assertNotNull(result);
     }
 }

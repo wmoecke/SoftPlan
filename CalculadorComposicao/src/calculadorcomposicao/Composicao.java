@@ -9,16 +9,20 @@ package calculadorcomposicao;
  * @author Werner
  */
 class Composicao {
-    Integer codigoComposicao;
-    String descricaoComposicao;
-    String unidadeComposicao;
-    String tipoItem;
-    Integer codigoItem;
-    String descricaoItemComposicao;
-    String unidadeItem;
-    Double quantidadeComposicao;
+    final Integer codigoComposicao;
+    final String descricaoComposicao;
+    final String unidadeComposicao;
+    final String tipoItem;
+    final Integer codigoItem;
+    final String descricaoItemComposicao;
+    final String unidadeItem;
+    final Double quantidadeComposicao;
     Double valorUnitario;
     
+    /*
+     * @constructor
+     * Inicializa a classe com valores "default".
+     */
     Composicao() {
         codigoComposicao = 0;
         descricaoComposicao = "";
@@ -31,6 +35,10 @@ class Composicao {
         valorUnitario = 0.0;
     }
     
+    /*
+     * @constructor
+     * Inicializa a classe com valores fornecidos como parâmetro.
+     */
     Composicao(
             Integer codCom,
             String desCom,
