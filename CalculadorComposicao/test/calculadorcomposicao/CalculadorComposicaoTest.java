@@ -5,8 +5,6 @@
 package calculadorcomposicao;
 
 import java.util.Iterator;
-import java.util.List;
-import jdk.nashorn.internal.parser.JSONParser;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.junit.After;
