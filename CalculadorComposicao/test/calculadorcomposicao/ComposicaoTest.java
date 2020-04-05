@@ -1,4 +1,4 @@
-/*
+/**
  *
  * Classe de testes unitários para a Classe Composicao.
  */

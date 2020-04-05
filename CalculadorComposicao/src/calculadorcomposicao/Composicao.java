@@ -1,4 +1,4 @@
-/*
+/**
  *
  * Classe Composicao
  */

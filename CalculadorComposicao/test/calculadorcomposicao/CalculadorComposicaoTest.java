@@ -1,4 +1,4 @@
-/*
+/**
  *
  * Classe de testes unitários para a Classe CalculadorComposicao.
  */
@@ -41,7 +41,7 @@ public class CalculadorComposicaoTest {
     
     @Test
     public void testLeArquivoEntrada() {
-        System.out.println("testLeArquivoEntrada():\n");
+        System.out.println("testLeArquivoEntrada():");
         JSONArray result = instance.leArquivoEntrada("entrada.json");
         assertNotNull(result);
         for (Iterator<JSONObject> iterator = result.iterator(); iterator.hasNext();)
@@ -50,9 +50,9 @@ public class CalculadorComposicaoTest {
             for (Iterator<Map.Entry> iter = c.entrySet().iterator(); iter.hasNext();)
             {
                 Map.Entry currItem = iter.next();
-                System.out.println(currItem.getKey() + ": " + currItem.getValue());
+                System.out.println("\t" + currItem.getKey() + ": " + currItem.getValue());
             }
-            System.out.println("");
+            System.out.println("------------------------------");
         }
     }
     
