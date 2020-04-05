@@ -4,7 +4,6 @@
  */
 package geradorobservacao;
 
-import static geradorobservacao.GeradorObservacao.umoNota;
 import java.text.NumberFormat;
 import java.util.Iterator;
 import java.util.List;
