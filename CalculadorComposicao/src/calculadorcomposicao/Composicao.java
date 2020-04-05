@@ -9,30 +9,30 @@ package calculadorcomposicao;
  * @author Werner
  */
 class Composicao {
-    final Integer codigoComposicao;
+    final Long codigoComposicao;
     final String descricaoComposicao;
     final String unidadeComposicao;
     final String tipoItem;
-    final Integer codigoItem;
+    final Long codigoItem;
     final String descricaoItemComposicao;
     final String unidadeItem;
-    final Double quantidadeComposicao;
-    Double valorUnitario;
+    final String quantidadeComposicao;
+    final String valorUnitario;
     
     /**
      *
      * Inicializa a classe com valores "default".
      */
     Composicao() {
-        codigoComposicao = 0;
-        descricaoComposicao = "";
-        unidadeComposicao = "";
-        tipoItem = "";
-        codigoItem = 0;
-        descricaoItemComposicao = "";
-        unidadeItem = "";
-        quantidadeComposicao = 0.0;
-        valorUnitario = 0.0;
+        this.codigoComposicao = 0L;
+        this.descricaoComposicao = "";
+        this.unidadeComposicao = "";
+        this.tipoItem = "";
+        this.codigoItem = 0L;
+        this.descricaoItemComposicao = "";
+        this.unidadeItem = "";
+        this.quantidadeComposicao = "0";
+        this.valorUnitario = "0";
     }
     
     /**
@@ -40,25 +40,41 @@ class Composicao {
      * Inicializa a classe com os valores fornecidos como parâmetro.
      */
     Composicao(
-            Integer codCom,
+            Long codCom,
             String desCom,
             String unCom,
             String tpItem,
-            Integer codItem,
+            Long codItem,
             String desItCom,
             String unItem,
-            Double qtdeCom,
-            Double vlrUn
+            String qtdeCom,
+            String vlrUn
         ) 
     {
-        codigoComposicao = codCom;
-        descricaoComposicao = desCom;
-        unidadeComposicao = unCom;
-        tipoItem = tpItem;
-        codigoItem = codItem;
-        descricaoItemComposicao = desItCom;
-        unidadeItem = unItem;
-        quantidadeComposicao = qtdeCom;
-        valorUnitario = vlrUn;
+        this.codigoComposicao = codCom;
+        this.descricaoComposicao = desCom;
+        this.unidadeComposicao = unCom;
+        this.tipoItem = tpItem;
+        this.codigoItem = codItem;
+        this.descricaoItemComposicao = desItCom;
+        this.unidadeItem = unItem;
+        this.quantidadeComposicao = qtdeCom;
+        this.valorUnitario = vlrUn;
+    }
+    
+    @Override
+    public String toString() { 
+        StringBuilder ret = new StringBuilder();
+        ret.append(String.format("codigoComposicao: %s\n", this.codigoComposicao.toString()));
+        ret.append(String.format("descricaoComposicao: %s\n", this.descricaoComposicao));
+        ret.append(String.format("unidadeComposicao: %s\n", this.unidadeComposicao));
+        ret.append(String.format("tipoItem: %s\n", this.tipoItem));
+        ret.append(String.format("codigoItem: %s\n", this.codigoItem.toString()));
+        ret.append(String.format("descricaoItemComposicao: %s\n", this.descricaoItemComposicao));
+        ret.append(String.format("unidadeItem: %s\n", this.unidadeItem));
+        ret.append(String.format("quantidadeComposicao: %s\n", this.quantidadeComposicao));
+        ret.append(String.format("valorUnitario: %s\n", this.valorUnitario));
+        
+        return ret.toString();
     }
 }
