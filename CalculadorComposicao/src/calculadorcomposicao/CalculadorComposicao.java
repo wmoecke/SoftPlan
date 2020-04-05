@@ -25,9 +25,8 @@ public class CalculadorComposicao {
     }
     
     /**
-     * Lê o arquivo .json de entrada, devolve um JSONArray populado
+     * 
      * @param path o caminho do arquivo de entrada
-     * @return JSONArray populado
      */
     JSONArray leArquivoEntrada(String path) {
         JSONArray entrada;
