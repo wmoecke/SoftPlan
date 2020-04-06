@@ -19,6 +19,10 @@ class Composicao {
     final String quantidadeComposicao;
     final String valorUnitario;
     
+    public static enum TipoItem {
+        INSUMO, COMPOSICAO
+    }
+    
     /**
      *
      * Inicializa a classe com valores "default".
@@ -31,8 +35,8 @@ class Composicao {
         this.codigoItem = 0L;
         this.descricaoItemComposicao = "";
         this.unidadeItem = "";
-        this.quantidadeComposicao = "0";
-        this.valorUnitario = "0";
+        this.quantidadeComposicao = "";
+        this.valorUnitario = "";
     }
     
     /**
@@ -61,7 +65,7 @@ class Composicao {
         this.quantidadeComposicao = qtdeCom;
         this.valorUnitario = vlrUn;
     }
-    
+
     @Override
     public String toString() { 
         StringBuilder ret = new StringBuilder();

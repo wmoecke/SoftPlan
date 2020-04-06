@@ -35,7 +35,7 @@ public class ComposicaoTest {
         System.out.println("testInicializaVazio():");
         instance = null;
         instance = new Composicao();
-        String expResult = "'0', '', '', '', '0', '', '', '0', '0'";
+        String expResult = "'0', '', '', '', '0', '', '', '', ''";
         String result = String.format("'%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s'",
                 instance.codigoComposicao.toString(),
                 instance.descricaoComposicao,
