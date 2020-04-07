@@ -7,7 +7,6 @@ package calculadorcomposicao;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
-import java.util.Map;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.junit.After;
@@ -61,8 +60,11 @@ public class CalculadorComposicaoTest {
             Composicao composicao = instance.criaComposicao(next);
             result.add(composicao);
         }
-        Collections.sort(result, new OrdenaPorCodigoComposicaoAsc());
-//        lista.forEach((Composicao currItem) -> {
+        ArrayList<Composicao> sorted = (ArrayList<Composicao>) result.clone();
+        Collections.copy(sorted, result);
+        Collections.sort(sorted, new OrdenaPorCodigoComposicaoAsc());
+        assertNotEquals(result, sorted);
+//        result.forEach((Composicao currItem) -> {
 //            System.out.println("------------------------------");
 //            System.out.print(currItem.toString());
 //        });
@@ -72,21 +74,26 @@ public class CalculadorComposicaoTest {
     @Test
     public void testBuscaInsumos() {
         System.out.println("testBuscaInsumos():");
-        JSONArray entrada = instance.leArquivoEntrada("entrada.json");
-        assertNotNull(entrada);
-        ArrayList<Composicao> result = new ArrayList<>();
-        for (Iterator<JSONObject> iterator = entrada.iterator(); iterator.hasNext();)
-        {
-            JSONObject next = iterator.next();
-            Composicao comp = instance.criaComposicao(next);
-            result.add(comp);
-        }
-        Collections.sort(result, new OrdenaPorCodigoComposicaoAsc());
-        result.forEach((Composicao currItem) -> {
+        CalculadorComposicao.populaLista(CalculadorComposicao.leArquivoEntrada("entrada.json"));
+        //ArrayList<Composicao> result = new ArrayList<>();
+        Collections.sort(instance.getLista(), new OrdenaPorCodigoComposicaoAsc());
+        instance.getLista().forEach((Composicao currItem) -> {
             System.out.println("------------------------------");
             System.out.print(currItem.toString());
+            ArrayList<Composicao> insumos = CalculadorComposicao.buscaInsumos(currItem);
+            if(!insumos.isEmpty()) {
+                System.out.println(String.format("\t-----INSUMOS: %d-----", currItem.codigoComposicao));
+                insumos.forEach((Composicao insumoComposicao) -> {
+                    System.out.print(String.format("\t%d: %s * %s\n", 
+                            insumoComposicao.codigoComposicao, 
+                            insumoComposicao.quantidadeComposicao, 
+                            insumoComposicao.valorUnitario));
+                });
+                System.out.println("\t------------------------");
+                System.out.println("\t\t* " + currItem.quantidadeComposicao);
+            }
         });
-        System.out.println();
-        assertNotEquals(new ArrayList<>(), result);
+        System.out.println("--------------FIM-------------\n");
+        //assertNotEquals(new ArrayList<>(), result);
     }
 }

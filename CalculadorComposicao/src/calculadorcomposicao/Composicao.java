@@ -19,10 +19,6 @@ class Composicao {
     final String quantidadeComposicao;
     final String valorUnitario;
     
-    public static enum TipoItem {
-        INSUMO, COMPOSICAO
-    }
-    
     /**
      *
      * Inicializa a classe com valores "default".
@@ -77,7 +73,7 @@ class Composicao {
         ret.append(String.format("descricaoItemComposicao: %s\n", this.descricaoItemComposicao));
         ret.append(String.format("unidadeItem: %s\n", this.unidadeItem));
         ret.append(String.format("quantidadeComposicao: %s\n", this.quantidadeComposicao));
-        ret.append(String.format("valorUnitario: %s\n", this.valorUnitario));
+        ret.append(String.format("valorUnitario: %s\n", (this.valorUnitario == null || this.valorUnitario.trim().isEmpty()) ? "0" : this.valorUnitario));
         
         return ret.toString();
     }

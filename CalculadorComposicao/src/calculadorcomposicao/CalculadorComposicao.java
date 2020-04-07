@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.Objects;
+import java.util.stream.Collectors;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -22,30 +24,41 @@ import org.json.simple.parser.ParseException;
  */
 public class CalculadorComposicao {
 
-    private static CalculadorComposicao calculador;
-    private static ArrayList<Composicao> lista;
+    private static ArrayList<Composicao> lista = new ArrayList<>();
 
-    public CalculadorComposicao() {
-        lista = new ArrayList<>();
+    /**
+     * @return ArrayList<Composicao> lista
+     */
+    public ArrayList<Composicao> getLista() {
+        return lista;
     }
            
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        calculador = new CalculadorComposicao();
-        JSONArray entrada = calculador.leArquivoEntrada("entrada.json");
-        for (Iterator<JSONObject> iterator = entrada.iterator(); iterator.hasNext();)
-        {
-            JSONObject c = iterator.next();
-            Composicao composicao = calculador.criaComposicao(c);
-            lista.add(composicao);
-        }
+        populaLista(leArquivoEntrada("entrada.json"));
         Collections.sort(lista, new OrdenaPorCodigoComposicaoAsc());
-        
+        lista.forEach((Composicao currItem) -> {
+            System.out.println("------------------------------");
+            System.out.print(currItem.toString());
+            ArrayList<Composicao> insumos = buscaInsumos(currItem);
+            if(!insumos.isEmpty()) {
+                System.out.println(String.format("\t-----INSUMOS: %d-----", currItem.codigoComposicao));
+                insumos.forEach((Composicao insumoComposicao) -> {
+                    System.out.print(String.format("\t%d: %s * %s\n", 
+                            insumoComposicao.codigoComposicao, 
+                            insumoComposicao.quantidadeComposicao, 
+                            insumoComposicao.valorUnitario));
+                });
+                System.out.println("\t------------------------");
+                System.out.println("\t\t* " + currItem.quantidadeComposicao);
+            }
+        });
+        System.out.println("--------------FIM-------------\n");
     }
     
-    Composicao criaComposicao(JSONObject e) {
+    static Composicao criaComposicao(JSONObject e) {
         return new Composicao
             (
                 (Long)   e.getOrDefault("codigoComposicao", 0L),
@@ -60,10 +73,32 @@ public class CalculadorComposicao {
             );
     }
     
-    ArrayList<Composicao> buscaInsumos(Composicao itemComposicao) 
+    static void populaLista(JSONArray entrada) {
+        for (Iterator<JSONObject> iterator = entrada.iterator(); iterator.hasNext();)
+        {
+            JSONObject c = iterator.next();
+            lista.add(criaComposicao(c));
+        }
+    }
+    
+    static ArrayList<Composicao> buscaInsumos(Composicao itemComposicao) 
     {
-        ArrayList<Composicao> ret = new ArrayList<>();
+        ArrayList<Composicao> tmp, ret, ins = new ArrayList<>();
+        tmp = (ArrayList<Composicao>) lista.stream()
+                .filter(c -> Objects.equals(c.codigoComposicao, 
+                        itemComposicao.codigoItem))
+                .collect(Collectors.toList());
         
+        ret = (ArrayList<Composicao>) tmp.clone();
+        Collections.copy(ret, tmp);
+        
+        tmp.forEach((Composicao composicao) -> {
+            ins.addAll(buscaInsumos(composicao));
+            if (!ins.isEmpty()) {
+                ret.remove(composicao);
+            }
+        });
+        ret.addAll(ins);
 
         return ret;
     }
@@ -72,7 +107,7 @@ public class CalculadorComposicao {
      * 
      * @param path o caminho do arquivo de entrada
      */
-    JSONArray leArquivoEntrada(String path) {
+    static JSONArray leArquivoEntrada(String path) {
         JSONArray entrada;
         //Cria o parse de tratamento
         JSONParser parser = new JSONParser();
