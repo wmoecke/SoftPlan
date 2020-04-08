@@ -51,13 +51,13 @@ public class GeradorObservacaoCliente
             return "";
         
         StringBuilder cod = new StringBuilder();
-        NumberFormat n = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
+        NumberFormat nf = NumberFormat.getCurrencyInstance(new Locale("pt", "BR"));
         Double t = 0.0;
         for (Iterator<Pair<Integer, Double>> iterator = lista.iterator(); iterator.hasNext();) {
             Pair<Integer, Double> next = iterator.next();
             Integer c = next.getKey();
             Double v = next.getValue();
-            String vs = String.format(" cujo valor é %s", n.format(v));
+            String vs = String.format(" cujo valor é %s", nf.format(v));
             String s = "";
             if( cod.toString() == null || cod.toString().length() <= 0 )
                 s =  "";
@@ -69,7 +69,7 @@ public class GeradorObservacaoCliente
             cod.append(s + c + vs);
             t += v;
         }
-        String tot = String.format(". Total = %s", n.format(t));
+        String tot = String.format(". Total = %s", nf.format(t));
         return cod + tot;
     }
 }

@@ -7,10 +7,13 @@ package calculadorcomposicao;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import org.json.simple.JSONArray;
@@ -29,7 +32,7 @@ public class CalculadorComposicao {
     /**
      * @return ArrayList<Composicao> lista
      */
-    public ArrayList<Composicao> getLista() {
+    public static ArrayList<Composicao> getLista() {
         return lista;
     }
            
@@ -38,24 +41,44 @@ public class CalculadorComposicao {
      */
     public static void main(String[] args) {
         populaLista(leArquivoEntrada("entrada.json"));
+        ///TODO: rest of the code goes here (as soon as I'm done).
+    }
+    
+    static ArrayList<Composicao> calculaValorUnitario() {
         Collections.sort(lista, new OrdenaPorCodigoComposicaoAsc());
-        lista.forEach((Composicao currItem) -> {
-            System.out.println("------------------------------");
-            System.out.print(currItem.toString());
-            ArrayList<Composicao> insumos = buscaInsumos(currItem);
-            if(!insumos.isEmpty()) {
-                System.out.println(String.format("\t-----INSUMOS: %d-----", currItem.codigoComposicao));
-                insumos.forEach((Composicao insumoComposicao) -> {
-                    System.out.print(String.format("\t%d: %s * %s\n", 
-                            insumoComposicao.codigoComposicao, 
-                            insumoComposicao.quantidadeComposicao, 
-                            insumoComposicao.valorUnitario));
-                });
-                System.out.println("\t------------------------");
-                System.out.println("\t\t* " + currItem.quantidadeComposicao);
+        for (Composicao next : lista) {
+            DecimalFormat df = new DecimalFormat("0.00", new DecimalFormatSymbols(new Locale("pt","BR")));
+            Double vt;
+            try {
+                vt = (Double) df.parse(next.getValorUnitario()).doubleValue();
+            } catch (java.text.ParseException ex) {
+                vt = 0d;
             }
+            ArrayList<Composicao> insumos = buscaInsumos(next);
+            if(!insumos.isEmpty()) {
+                for (Composicao insumo : insumos) {
+                    Double v, q;
+                    try {
+                        v = (Double) df.parse(insumo.getValorUnitario()).doubleValue();
+                        q = (Double) df.parse(insumo.quantidadeComposicao).doubleValue();
+                    } catch (Exception e) {
+                        v = 0d;
+                        q = 0d;
+                    }
+                    vt += v * q;
+                }
+            }
+            next.setValorUnitario(df.format(vt));
+            //System.out.print(next.toString());
+        }
+        
+        //DEBUG PRINT:
+        lista.forEach((Composicao item) -> {
+            System.out.println("------------------------------");
+            System.out.print(item.toString());
         });
         System.out.println("--------------FIM-------------\n");
+        return null;
     }
     
     static Composicao criaComposicao(JSONObject e) {
@@ -74,6 +97,7 @@ public class CalculadorComposicao {
     }
     
     static void populaLista(JSONArray entrada) {
+        lista.clear();
         for (Iterator<JSONObject> iterator = entrada.iterator(); iterator.hasNext();)
         {
             JSONObject c = iterator.next();

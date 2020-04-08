@@ -17,7 +17,21 @@ class Composicao {
     final String descricaoItemComposicao;
     final String unidadeItem;
     final String quantidadeComposicao;
-    final String valorUnitario;
+    private String valorUnitario;
+
+    /**
+     * @return String valor unitário
+     */
+    public String getValorUnitario() {
+        return this.valorUnitario;
+    }
+
+    /**
+     * @param valorUnitario o valor unitário a setar
+     */
+    public void setValorUnitario(String valorUnitario) {
+        this.valorUnitario = valorUnitario;
+    }
     
     /**
      *
@@ -31,8 +45,8 @@ class Composicao {
         this.codigoItem = 0L;
         this.descricaoItemComposicao = "";
         this.unidadeItem = "";
-        this.quantidadeComposicao = "";
-        this.valorUnitario = "";
+        this.quantidadeComposicao = "0";
+        this.valorUnitario = "0";
     }
     
     /**
@@ -58,8 +72,8 @@ class Composicao {
         this.codigoItem = codItem;
         this.descricaoItemComposicao = desItCom;
         this.unidadeItem = unItem;
-        this.quantidadeComposicao = qtdeCom;
-        this.valorUnitario = vlrUn;
+        this.quantidadeComposicao = (qtdeCom == null || qtdeCom.trim().isEmpty()) ? "0" : qtdeCom;
+        this.valorUnitario = (vlrUn == null || vlrUn.trim().isEmpty()) ? "0" : vlrUn;
     }
 
     @Override
@@ -73,8 +87,7 @@ class Composicao {
         ret.append(String.format("descricaoItemComposicao: %s\n", this.descricaoItemComposicao));
         ret.append(String.format("unidadeItem: %s\n", this.unidadeItem));
         ret.append(String.format("quantidadeComposicao: %s\n", this.quantidadeComposicao));
-        ret.append(String.format("valorUnitario: %s\n", (this.valorUnitario == null || this.valorUnitario.trim().isEmpty()) ? "0" : this.valorUnitario));
-        
+        ret.append(String.format("valorUnitario: %s\n", this.valorUnitario));
         return ret.toString();
     }
 }

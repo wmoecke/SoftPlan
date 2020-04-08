@@ -9,8 +9,6 @@ import java.util.Collections;
 import java.util.Iterator;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -21,25 +19,12 @@ import static org.junit.Assert.*;
  */
 public class CalculadorComposicaoTest {
     
-    private CalculadorComposicao instance = null;
-
-    @Before
-    public void setUp() throws Exception {
-        instance = new CalculadorComposicao();
-        assertNotNull(instance);
-    }
-
-    @After
-    public void tearDown() throws Exception {
-        instance = null;
-        assertNull(instance);
-    }
-    
     @Test
     public void testLeArquivoEntrada() {
         System.out.println("testLeArquivoEntrada():");
-        JSONArray entrada = instance.leArquivoEntrada("entrada.json");
+        JSONArray entrada = CalculadorComposicao.leArquivoEntrada("entrada.json");
         assertNotNull(entrada);
+        assertTrue(!entrada.isEmpty());
 //        for (Iterator<JSONObject> iterator = entrada.iterator();
 //                iterator.hasNext();) {
 //            JSONObject next = iterator.next();
@@ -52,12 +37,12 @@ public class CalculadorComposicaoTest {
     @Test
     public void testOrdenaPorCodigoComposicao() {
         System.out.println("testOrdenaPorCodigoComposicao():");
-        JSONArray entrada = instance.leArquivoEntrada("entrada.json");
+        JSONArray entrada = CalculadorComposicao.leArquivoEntrada("entrada.json");
         ArrayList<Composicao> result = new ArrayList<>();
         for (Iterator<JSONObject> iterator = entrada.iterator(); iterator.hasNext();)
         {
             JSONObject next = iterator.next();
-            Composicao composicao = instance.criaComposicao(next);
+            Composicao composicao = CalculadorComposicao.criaComposicao(next);
             result.add(composicao);
         }
         ArrayList<Composicao> sorted = (ArrayList<Composicao>) result.clone();
@@ -76,24 +61,69 @@ public class CalculadorComposicaoTest {
         System.out.println("testBuscaInsumos():");
         CalculadorComposicao.populaLista(CalculadorComposicao.leArquivoEntrada("entrada.json"));
         //ArrayList<Composicao> result = new ArrayList<>();
-        Collections.sort(instance.getLista(), new OrdenaPorCodigoComposicaoAsc());
-        instance.getLista().forEach((Composicao currItem) -> {
-            System.out.println("------------------------------");
-            System.out.print(currItem.toString());
-            ArrayList<Composicao> insumos = CalculadorComposicao.buscaInsumos(currItem);
-            if(!insumos.isEmpty()) {
-                System.out.println(String.format("\t-----INSUMOS: %d-----", currItem.codigoComposicao));
-                insumos.forEach((Composicao insumoComposicao) -> {
-                    System.out.print(String.format("\t%d: %s * %s\n", 
-                            insumoComposicao.codigoComposicao, 
-                            insumoComposicao.quantidadeComposicao, 
-                            insumoComposicao.valorUnitario));
-                });
-                System.out.println("\t------------------------");
-                System.out.println("\t\t* " + currItem.quantidadeComposicao);
-            }
-        });
-        System.out.println("--------------FIM-------------\n");
-        //assertNotEquals(new ArrayList<>(), result);
+        JSONArray insumosTeste = CalculadorComposicao.leArquivoEntrada("insumosTeste.json");
+        ArrayList<Composicao> expResult = new ArrayList<>();
+        for (Iterator<JSONObject> iterator = insumosTeste.iterator(); iterator.hasNext();)
+        {
+            JSONObject next = iterator.next();
+            Composicao composicao = CalculadorComposicao.criaComposicao(next);
+            expResult.add(composicao);
+        }
+        Composicao c = new Composicao(
+                98561L,
+                "IMPERMEABILIZAÇÃO DE PAREDES COM ARGAMASSA DE "
+                        + "CIMENTO E AREIA, COM ADITIVO IMPERMEABILIZANTE, "
+                        + "E = 2CM. AF_06/2018",
+                "M2",
+                "COMPOSICAO",
+                87286L,
+                "ARGAMASSA TRAÇO 1:1:6 (CIMENTO, CAL E AREIA MÉDIA) PARA "
+                        + "EMBOÇO/MASSA ÚNICA/ASSENTAMENTO DE ALVENARIA DE "
+                        + "VEDAÇÃO, PREPARO MECÂNICO COM BETONEIRA 400 L. "
+                        + "AF_06/2014",
+                "M3",
+                "0,0250000",
+                "0"
+        );
+        Collections.sort(CalculadorComposicao.getLista(), new OrdenaPorCodigoComposicaoAsc());
+        ArrayList<Composicao> result = CalculadorComposicao.buscaInsumos(c);
+        //assertEquals(expResult, result);
+        System.out.println();
+    }
+    
+    @Test
+    public void testCalculaValorUnitario() {
+        System.out.println("testCalculaValorUnitario():");
+        //assertNotNull(CalculadorComposicao.calculaValorUnitario());
+        CalculadorComposicao.populaLista(CalculadorComposicao.leArquivoEntrada("entrada.json"));
+        CalculadorComposicao.calculaValorUnitario();
+//        Collections.sort(CalculadorComposicao.getLista(), new OrdenaPorCodigoComposicaoAsc());
+//        for (Composicao next : CalculadorComposicao.getLista()) {
+//            System.out.println("------------------------------");
+//            DecimalFormat df = new DecimalFormat("0.00", new DecimalFormatSymbols(new Locale("pt","BR")));
+//            Double vt;
+//            try {
+//                vt = (Double) df.parse(next.getValorUnitario()).doubleValue();
+//            } catch (ParseException ex) {
+//                vt = 0d;
+//            }
+//            ArrayList<Composicao> insumos = CalculadorComposicao.buscaInsumos(next);
+//            if(!insumos.isEmpty()) {
+//                for (Composicao insumo : insumos) {
+//                    Double v, q;
+//                    try {
+//                        v = (Double) df.parse(insumo.getValorUnitario()).doubleValue();
+//                        q = (Double) df.parse(insumo.quantidadeComposicao).doubleValue();
+//                    } catch (Exception e) {
+//                        v = 0d;
+//                        q = 0d;
+//                    }
+//                    vt += v * q;
+//                }
+//            }
+//            next.setValorUnitario(df.format(vt));
+//            System.out.print(next.toString());
+//        }
+//        System.out.println("--------------FIM-------------\n");
     }
 }
