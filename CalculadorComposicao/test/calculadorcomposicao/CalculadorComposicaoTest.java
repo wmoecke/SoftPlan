@@ -6,7 +6,11 @@ package calculadorcomposicao;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
+import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.junit.Test;
@@ -25,6 +29,7 @@ public class CalculadorComposicaoTest {
         JSONArray entrada = CalculadorComposicao.leArquivoEntrada("entrada.json");
         assertNotNull(entrada);
         assertTrue(!entrada.isEmpty());
+        //DEBUG PRINT:
 //        for (Iterator<JSONObject> iterator = entrada.iterator();
 //                iterator.hasNext();) {
 //            JSONObject next = iterator.next();
@@ -35,8 +40,8 @@ public class CalculadorComposicaoTest {
     }
     
     @Test
-    public void testOrdenaPorCodigoComposicao() {
-        System.out.println("testOrdenaPorCodigoComposicao():");
+    public void testOrdenaListaCrescente() {
+        System.out.println("testOrdenaListaCrescente():");
         JSONArray entrada = CalculadorComposicao.leArquivoEntrada("entrada.json");
         ArrayList<Composicao> result = new ArrayList<>();
         for (Iterator<JSONObject> iterator = entrada.iterator(); iterator.hasNext();)
@@ -47,8 +52,12 @@ public class CalculadorComposicaoTest {
         }
         ArrayList<Composicao> sorted = (ArrayList<Composicao>) result.clone();
         Collections.copy(sorted, result);
-        Collections.sort(sorted, new OrdenaPorCodigoComposicaoAsc());
+        //Testa antes da ordenação
+        assertEquals(result, sorted);
+        sorted = ordenaListaCrescente(sorted);
+        //Testa depois da ordenação
         assertNotEquals(result, sorted);
+        //DEBUG PRINT:
 //        result.forEach((Composicao currItem) -> {
 //            System.out.println("------------------------------");
 //            System.out.print(currItem.toString());
@@ -85,45 +94,77 @@ public class CalculadorComposicaoTest {
                 "0,0250000",
                 "0"
         );
-        Collections.sort(CalculadorComposicao.getLista(), new OrdenaPorCodigoComposicaoAsc());
         ArrayList<Composicao> result = CalculadorComposicao.buscaInsumos(c);
-        //assertEquals(expResult, result);
+        ArrayList<Composicao> sorted = ordenaListaCrescente(result);
+        //assertEquals(expResult, sorted);
         System.out.println();
     }
     
     @Test
-    public void testCalculaValorUnitario() {
-        System.out.println("testCalculaValorUnitario():");
+    public void testTotalizaItensComposicao() {
+        System.out.println("testTotalizaItensComposicao():");
         //assertNotNull(CalculadorComposicao.calculaValorUnitario());
         CalculadorComposicao.populaLista(CalculadorComposicao.leArquivoEntrada("entrada.json"));
-        CalculadorComposicao.calculaValorUnitario();
-//        Collections.sort(CalculadorComposicao.getLista(), new OrdenaPorCodigoComposicaoAsc());
-//        for (Composicao next : CalculadorComposicao.getLista()) {
+        Composicao composicao = new Composicao(
+                98561L,
+                "IMPERMEABILIZAÇÃO DE PAREDES COM ARGAMASSA DE "
+                        + "CIMENTO E AREIA, COM ADITIVO IMPERMEABILIZANTE, "
+                        + "E = 2CM. AF_06/2018",
+                "M2",
+                "COMPOSICAO",
+                87286L,
+                "ARGAMASSA TRAÇO 1:1:6 (CIMENTO, CAL E AREIA MÉDIA) PARA "
+                        + "EMBOÇO/MASSA ÚNICA/ASSENTAMENTO DE ALVENARIA DE "
+                        + "VEDAÇÃO, PREPARO MECÂNICO COM BETONEIRA 400 L. "
+                        + "AF_06/2014",
+                "M3",
+                "0,0250000",
+                "0"
+        );
+        Double expResult, result;
+        Composicao resultEquals = getComposicao(composicao);
+        expResult = 0d;
+        result = resultEquals.getValorUnitario();
+        //Testa valor antes da totalização
+        assertEquals(expResult, result);
+        CalculadorComposicao.totalizaItensComposicao();
+        resultEquals = getComposicao(composicao);
+        expResult = 289.1d;
+        result = resultEquals.getValorUnitario();
+        //Testa valor depois da totalização
+        assertEquals(expResult, result);
+        
+        //DEBUG PRINT:
+//        CalculadorComposicao.getLista().forEach((Composicao item) -> {
 //            System.out.println("------------------------------");
-//            DecimalFormat df = new DecimalFormat("0.00", new DecimalFormatSymbols(new Locale("pt","BR")));
-//            Double vt;
-//            try {
-//                vt = (Double) df.parse(next.getValorUnitario()).doubleValue();
-//            } catch (ParseException ex) {
-//                vt = 0d;
-//            }
-//            ArrayList<Composicao> insumos = CalculadorComposicao.buscaInsumos(next);
-//            if(!insumos.isEmpty()) {
-//                for (Composicao insumo : insumos) {
-//                    Double v, q;
-//                    try {
-//                        v = (Double) df.parse(insumo.getValorUnitario()).doubleValue();
-//                        q = (Double) df.parse(insumo.quantidadeComposicao).doubleValue();
-//                    } catch (Exception e) {
-//                        v = 0d;
-//                        q = 0d;
-//                    }
-//                    vt += v * q;
-//                }
-//            }
-//            next.setValorUnitario(df.format(vt));
-//            System.out.print(next.toString());
-//        }
+//            System.out.print(item.toString());
+//        });
 //        System.out.println("--------------FIM-------------\n");
+    }
+    
+    @Test
+    public void testAgrupaItensComposicao() {
+        System.out.println("testAgrupaItensComposicao():");
+        CalculadorComposicao.populaLista(CalculadorComposicao.leArquivoEntrada("entrada.json"));
+        CalculadorComposicao.totalizaItensComposicao();
+        Map<Long, Double> result = CalculadorComposicao.agrupaItensComposicao();
+        assertNotNull(CalculadorComposicao.agrupaItensComposicao());
+        
+    }
+
+    ArrayList<Composicao> ordenaListaCrescente(ArrayList<Composicao> listaDesordenada) {
+        ArrayList<Composicao> ret;
+        ret = (ArrayList<Composicao>) listaDesordenada.stream()
+                .sorted(Comparator.comparingLong(Composicao::getCodigoComposicao))
+                .collect(Collectors.toList());
+        return ret;
+    }
+    
+    Composicao getComposicao(Composicao item) {
+        return (Composicao) CalculadorComposicao.getLista().stream()
+                .filter(c -> Objects.equals(c.getCodigoComposicao(), 
+                        item.getCodigoComposicao()) &&
+                        Objects.equals(c.getCodigoItem(), 
+                        item.getCodigoItem())).findAny().get();
     }
 }

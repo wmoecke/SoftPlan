@@ -35,16 +35,16 @@ public class ComposicaoTest {
         System.out.println("testInicializaVazio():");
         instance = null;
         instance = new Composicao();
-        String expResult = "'0', '', '', '', '0', '', '', '0', '0'";
+        String expResult = "'0', '', '', '', '0', '', '', '0.0', '0.0'";
         String result = String.format("'%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s', '%s'",
-                instance.codigoComposicao.toString(),
-                instance.descricaoComposicao,
-                instance.unidadeComposicao,
-                instance.tipoItem,
-                instance.codigoItem.toString(),
-                instance.descricaoItemComposicao,
-                instance.unidadeItem,
-                instance.quantidadeComposicao,
+                instance.getCodigoComposicao(),
+                instance.getDescricaoComposicao(),
+                instance.getUnidadeComposicao(),
+                instance.getTipoItem(),
+                instance.getCodigoItem(),
+                instance.getDescricaoItemComposicao(),
+                instance.getUnidadeItem(),
+                instance.getQuantidadeComposicao(),
                 instance.getValorUnitario()
         );
         System.out.println(result + '\n');
@@ -81,17 +81,17 @@ public class ComposicaoTest {
                 + "'3148',\n"
                 + "'FITA VEDA ROSCA EM ROLOS DE 18 MM X 50 M (L X C)',\n"
                 + "'UN',\n"
-                + "'0,0190000',\n"
-                + "'9,40'";
+                + "'0.019',\n"
+                + "'9.4'";
         String result = String.format("'%s',\n'%s',\n'%s',\n'%s',\n'%s',\n'%s',\n'%s',\n'%s',\n'%s'",
-                instance.codigoComposicao.toString(),
-                instance.descricaoComposicao,
-                instance.unidadeComposicao,
-                instance.tipoItem,
-                instance.codigoItem.toString(),
-                instance.descricaoItemComposicao,
-                instance.unidadeItem,
-                instance.quantidadeComposicao,
+                instance.getCodigoComposicao(),
+                instance.getDescricaoComposicao(),
+                instance.getUnidadeComposicao(),
+                instance.getTipoItem(),
+                instance.getCodigoItem(),
+                instance.getDescricaoItemComposicao(),
+                instance.getUnidadeItem(),
+                instance.getQuantidadeComposicao(),
                 instance.getValorUnitario()
         );
         System.out.println(result + '\n');

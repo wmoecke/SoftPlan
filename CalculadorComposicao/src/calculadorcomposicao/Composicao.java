@@ -4,33 +4,128 @@
  */
 package calculadorcomposicao;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.ParseException;
+import java.util.Locale;
+
 /**
  *
  * @author Werner
  */
 class Composicao {
-    final Long codigoComposicao;
-    final String descricaoComposicao;
-    final String unidadeComposicao;
-    final String tipoItem;
-    final Long codigoItem;
-    final String descricaoItemComposicao;
-    final String unidadeItem;
-    final String quantidadeComposicao;
+    private final Long codigoComposicao;
+    private final String descricaoComposicao;
+    private final String unidadeComposicao;
+    private final String tipoItem;
+    private final Long codigoItem;
+    private final String descricaoItemComposicao;
+    private final String unidadeItem;
+    private String quantidadeComposicao;
     private String valorUnitario;
 
     /**
-     * @return String valor unitário
+     * @return String Código Composicao
      */
-    public String getValorUnitario() {
-        return this.valorUnitario;
+    public Long getCodigoComposicao() {
+        return this.codigoComposicao;
     }
 
     /**
-     * @param valorUnitario o valor unitário a setar
+     * @return String Descrição Composicao
      */
-    public void setValorUnitario(String valorUnitario) {
-        this.valorUnitario = valorUnitario;
+    public String getDescricaoComposicao() {
+        return this.descricaoComposicao;
+    }
+
+    /**
+     * @return String Unidade Composicao
+     */
+    public String getUnidadeComposicao() {
+        return this.unidadeComposicao;
+    }
+
+    /**
+     * @return String Tipo Item
+     */
+    public String getTipoItem() {
+        return this.tipoItem;
+    }
+
+    /**
+     * @return String Código Item
+     */
+    public Long getCodigoItem() {
+        return this.codigoItem;
+    }
+
+    /**
+     * @return String Descrição Item Composição
+     */
+    public String getDescricaoItemComposicao() {
+        return this.descricaoItemComposicao;
+    }
+
+    /**
+     * @return String Unidade Item
+     */
+    public String getUnidadeItem() {
+        return this.unidadeItem;
+    }
+    
+    /**
+     * @return String Quantidade Composição
+     */
+    public Double getQuantidadeComposicao() {
+        DecimalFormat df = new DecimalFormat("0.00", new DecimalFormatSymbols(new Locale("pt","BR")));
+        try {
+            return (Double) df.parse(this.quantidadeComposicao).doubleValue();
+        } catch (ParseException ex) {
+            return 0d;
+        }
+    }
+
+    /**
+     * @param valorUnitario a Quantidade Composicao a setar
+     */
+    public void setQuantidadeComposicao(String quantidadeComposicao) {
+        DecimalFormat df = new DecimalFormat("0.00", new DecimalFormatSymbols(new Locale("pt","BR")));
+        this.quantidadeComposicao = df.format(quantidadeComposicao);
+    }
+    
+    /**
+     * @return String Valor Unitário
+     */
+    public Double getValorUnitario() {
+        DecimalFormat df = new DecimalFormat("0.00", new DecimalFormatSymbols(new Locale("pt","BR")));
+        try {
+            return (Double) df.parse(this.valorUnitario).doubleValue();
+        } catch (ParseException ex) {
+            return 0d;
+        }
+    }
+
+    /**
+     * @param valorUnitario o Valor Unitário a setar
+     */
+    public void setValorUnitario(Double valorUnitario) {
+        DecimalFormat df = new DecimalFormat("0.00", new DecimalFormatSymbols(new Locale("pt","BR")));
+        this.valorUnitario = df.format(valorUnitario);
+    }
+    
+    /**
+     * @return String Valor Unitário
+     */
+    public Double getValorComposicao() {
+        DecimalFormat df = new DecimalFormat("0.00", new DecimalFormatSymbols(new Locale("pt","BR")));
+        Double v, q;
+        try {
+            v = (Double) df.parse(this.valorUnitario).doubleValue();
+            q = (Double) df.parse(this.quantidadeComposicao).doubleValue();
+            return v * q;
+        } catch (ParseException ex) {
+            return 0d;
+        }
     }
     
     /**
