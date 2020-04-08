@@ -14,67 +14,76 @@ import java.util.Locale;
  * @author Werner
  */
 class Composicao {
-    private final Long codigoComposicao;
-    private final String descricaoComposicao;
-    private final String unidadeComposicao;
+    private Long codigoComposicao;
+    private String descricaoComposicao;
+    private String unidadeComposicao;
     private final String tipoItem;
     private final Long codigoItem;
     private final String descricaoItemComposicao;
     private final String unidadeItem;
-    private String quantidadeComposicao;
+    private final String quantidadeComposicao;
     private String valorUnitario;
 
     /**
-     * @return String Código Composicao
+     * Código Composicao
      */
     public Long getCodigoComposicao() {
         return this.codigoComposicao;
     }
+//    public void setCodigoComposicao(Long valor) {
+//        this.codigoComposicao = valor;
+//    }
 
     /**
-     * @return String Descrição Composicao
+     * Descrição Composicao
      */
     public String getDescricaoComposicao() {
         return this.descricaoComposicao;
     }
-
+//    public void setDescricaoComposicao(String valor) {
+//        this.descricaoComposicao = valor;
+//    }
+    
     /**
-     * @return String Unidade Composicao
+     * Unidade Composicao
      */
     public String getUnidadeComposicao() {
         return this.unidadeComposicao;
     }
-
+//    public void setUnidadeComposicao(String valor) {
+//        this.unidadeComposicao = valor;
+//    }
+    
     /**
-     * @return String Tipo Item
+     * Tipo Item
      */
     public String getTipoItem() {
         return this.tipoItem;
     }
 
     /**
-     * @return String Código Item
+     * Código Item
      */
     public Long getCodigoItem() {
         return this.codigoItem;
     }
 
     /**
-     * @return String Descrição Item Composição
+     * Descrição Item Composição
      */
     public String getDescricaoItemComposicao() {
         return this.descricaoItemComposicao;
     }
 
     /**
-     * @return String Unidade Item
+     * Unidade Item
      */
     public String getUnidadeItem() {
         return this.unidadeItem;
     }
     
     /**
-     * @return String Quantidade Composição
+     * Quantidade Composição
      */
     public Double getQuantidadeComposicao() {
         DecimalFormat df = new DecimalFormat("0.00", new DecimalFormatSymbols(new Locale("pt","BR")));
@@ -84,17 +93,9 @@ class Composicao {
             return 0d;
         }
     }
-
-    /**
-     * @param valorUnitario a Quantidade Composicao a setar
-     */
-    public void setQuantidadeComposicao(String quantidadeComposicao) {
-        DecimalFormat df = new DecimalFormat("0.00", new DecimalFormatSymbols(new Locale("pt","BR")));
-        this.quantidadeComposicao = df.format(quantidadeComposicao);
-    }
     
     /**
-     * @return String Valor Unitário
+     * Valor Unitário
      */
     public Double getValorUnitario() {
         DecimalFormat df = new DecimalFormat("0.00", new DecimalFormatSymbols(new Locale("pt","BR")));
@@ -104,17 +105,13 @@ class Composicao {
             return 0d;
         }
     }
-
-    /**
-     * @param valorUnitario o Valor Unitário a setar
-     */
-    public void setValorUnitario(Double valorUnitario) {
+    public void setValorUnitario(Double valor) {
         DecimalFormat df = new DecimalFormat("0.00", new DecimalFormatSymbols(new Locale("pt","BR")));
-        this.valorUnitario = df.format(valorUnitario);
+        this.valorUnitario = df.format(valor);
     }
     
     /**
-     * @return String Valor Unitário
+     * @return Double Valor Unitário * Quantidade
      */
     public Double getValorComposicao() {
         DecimalFormat df = new DecimalFormat("0.00", new DecimalFormatSymbols(new Locale("pt","BR")));
@@ -174,15 +171,10 @@ class Composicao {
     @Override
     public String toString() { 
         StringBuilder ret = new StringBuilder();
-        ret.append(String.format("codigoComposicao: %s\n", this.codigoComposicao.toString()));
-        ret.append(String.format("descricaoComposicao: %s\n", this.descricaoComposicao));
-        ret.append(String.format("unidadeComposicao: %s\n", this.unidadeComposicao));
-        ret.append(String.format("tipoItem: %s\n", this.tipoItem));
-        ret.append(String.format("codigoItem: %s\n", this.codigoItem.toString()));
-        ret.append(String.format("descricaoItemComposicao: %s\n", this.descricaoItemComposicao));
-        ret.append(String.format("unidadeItem: %s\n", this.unidadeItem));
-        ret.append(String.format("quantidadeComposicao: %s\n", this.quantidadeComposicao));
-        ret.append(String.format("valorUnitario: %s\n", this.valorUnitario));
+        ret.append(String.format("%s ", this.codigoComposicao.toString()));
+        ret.append(String.format("%s ", this.descricaoComposicao));
+        ret.append(String.format("%s ", this.unidadeComposicao));
+        ret.append(String.format("%s", this.valorUnitario));
         return ret.toString();
     }
 }

@@ -24,7 +24,7 @@ import org.json.simple.parser.ParseException;
  */
 public class CalculadorComposicao {
 
-    private static ArrayList<Composicao> lista = new ArrayList<>();
+    private final static ArrayList<Composicao> lista = new ArrayList<>();
 
     /**
      * @return ArrayList<Composicao> lista
@@ -38,32 +38,26 @@ public class CalculadorComposicao {
      */
     public static void main(String[] args) {
         populaLista(leArquivoEntrada("entrada.json"));
-        ///TODO: rest of the code goes here (as soon as I'm done).
-    }
-    
-    static Map<Long, Double> agrupaItensComposicao() {
-        Map<Long, Double> ret = lista.stream().collect(Collectors
-                .groupingBy(Composicao::getCodigoComposicao, 
-                        Collectors.summingDouble(Composicao::
-                                getValorComposicao)));
-        return ret;
-    }
-    
-    static void totalizaItensComposicao() {
-        for (Composicao next : lista) {
-            Double vt = next.getValorUnitario();
-            
-            ArrayList<Composicao> insumos = buscaInsumos(next);
-            if(!insumos.isEmpty()) {
-                for (Composicao insumo : insumos) {
-                    vt += insumo.getValorComposicao();
-                }
+        totalizaItensComposicao();
+        agrupaItensComposicao().entrySet().stream().forEach((item) -> {
+            Composicao c = buscaComposicao(item);
+            if (c != null) {
+                c.setValorUnitario(item.getValue());
+                System.out.println(c.toString());
             }
-            next.setValorUnitario(vt);
+        });
+    }
+    
+    static void populaLista(JSONArray entrada) {
+        lista.clear();
+        for (Iterator<JSONObject> iterator = entrada.iterator(); iterator.hasNext();)
+        {
+            JSONObject c = iterator.next();
+            lista.add(criaComposicao(c));
         }
     }
     
-    static Composicao criaComposicao(JSONObject e) {
+    static Composicao criaComposicao(Map e) {
         return new Composicao
             (
                 (Long)   e.getOrDefault("codigoComposicao", 0L),
@@ -76,35 +70,6 @@ public class CalculadorComposicao {
                 (String) e.getOrDefault("quantidadeComposicao", ""),
                 (String) e.getOrDefault("valorUnitario", "")
             );
-    }
-    
-    static void populaLista(JSONArray entrada) {
-        lista.clear();
-        for (Iterator<JSONObject> iterator = entrada.iterator(); iterator.hasNext();)
-        {
-            JSONObject c = iterator.next();
-            lista.add(criaComposicao(c));
-        }
-    }
-    
-    static ArrayList<Composicao> buscaInsumos(Composicao itemComposicao) 
-    {
-        ArrayList<Composicao> tmp, ret, ins = new ArrayList<>();
-        tmp = (ArrayList<Composicao>) lista.stream().filter(c -> Objects.equals(c.getCodigoComposicao(), 
-                itemComposicao.getCodigoItem())).collect(Collectors.toList());
-        
-        ret = (ArrayList<Composicao>) tmp.clone();
-        Collections.copy(ret, tmp);
-         
-        tmp.forEach((Composicao composicao) -> {
-            ins.addAll(buscaInsumos(composicao));
-            if (!ins.isEmpty()) {
-                ret.remove(composicao);
-            }
-        });
-        ret.addAll(ins);
-
-        return ret;
     }
     
     /**
@@ -131,5 +96,53 @@ public class CalculadorComposicao {
             System.out.println(e.getMessage());
             return null;
         }
+    }
+    
+    static void totalizaItensComposicao() {
+        for (Composicao next : lista) {
+            Double vt = next.getValorUnitario();
+            
+            ArrayList<Composicao> insumos = buscaInsumos(next);
+            if(!insumos.isEmpty()) {
+                for (Composicao insumo : insumos) {
+                    vt += insumo.getValorComposicao();
+                }
+            }
+            next.setValorUnitario(vt);
+        }
+    }
+    
+    static ArrayList<Composicao> buscaInsumos(Composicao itemComposicao) 
+    {
+        ArrayList<Composicao> tmp, ret, ins = new ArrayList<>();
+        tmp = (ArrayList<Composicao>) lista.stream().filter(c -> Objects.equals(c.getCodigoComposicao(), 
+                itemComposicao.getCodigoItem())).collect(Collectors.toList());
+        
+        ret = (ArrayList<Composicao>) tmp.clone();
+        Collections.copy(ret, tmp);
+         
+        tmp.forEach((Composicao composicao) -> {
+            ins.addAll(buscaInsumos(composicao));
+            if (!ins.isEmpty()) {
+                ret.remove(composicao);
+            }
+        });
+        ret.addAll(ins);
+
+        return ret;
+    }
+    
+    static Map<Long, Double> agrupaItensComposicao() {
+        Map<Long, Double> ret = lista.stream().collect(Collectors
+                .groupingBy(Composicao::getCodigoComposicao, 
+                        Collectors.summingDouble(Composicao::
+                                getValorComposicao)));
+        return ret;
+    }
+    
+    static Composicao buscaComposicao(Map.Entry<Long, Double> item) {
+        return (Composicao) lista.stream()
+                .filter(c -> Objects.equals(c.getCodigoComposicao(), 
+                        item.getKey())).findAny().get();
     }
 }

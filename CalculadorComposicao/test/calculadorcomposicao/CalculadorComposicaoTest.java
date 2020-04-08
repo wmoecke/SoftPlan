@@ -30,12 +30,12 @@ public class CalculadorComposicaoTest {
         assertNotNull(entrada);
         assertTrue(!entrada.isEmpty());
         //DEBUG PRINT:
-//        for (Iterator<JSONObject> iterator = entrada.iterator();
-//                iterator.hasNext();) {
-//            JSONObject next = iterator.next();
-//            System.out.println("------------------------------");
-//            System.out.println(next);
-//        }
+        for (Iterator<JSONObject> iterator = entrada.iterator();
+                iterator.hasNext();) {
+            JSONObject next = iterator.next();
+            System.out.println("------------------------------");
+            System.out.println(next);
+        }
         System.out.println();
     }
     
@@ -58,10 +58,10 @@ public class CalculadorComposicaoTest {
         //Testa depois da ordenação
         assertNotEquals(result, sorted);
         //DEBUG PRINT:
-//        result.forEach((Composicao currItem) -> {
-//            System.out.println("------------------------------");
-//            System.out.print(currItem.toString());
-//        });
+        result.forEach((Composicao currItem) -> {
+            System.out.println("------------------------------");
+            System.out.println(currItem.toString());
+        });
         System.out.println();
     }
     
@@ -97,6 +97,11 @@ public class CalculadorComposicaoTest {
         ArrayList<Composicao> result = CalculadorComposicao.buscaInsumos(c);
         ArrayList<Composicao> sorted = ordenaListaCrescente(result);
         //assertEquals(expResult, sorted);
+        //DEBUG PRINT:
+        result.forEach((Composicao currItem) -> {
+            System.out.println("------------------------------");
+            System.out.println(currItem.toString());
+        });
         System.out.println();
     }
     
@@ -133,13 +138,12 @@ public class CalculadorComposicaoTest {
         result = resultEquals.getValorUnitario();
         //Testa valor depois da totalização
         assertEquals(expResult, result);
-        
         //DEBUG PRINT:
-//        CalculadorComposicao.getLista().forEach((Composicao item) -> {
-//            System.out.println("------------------------------");
-//            System.out.print(item.toString());
-//        });
-//        System.out.println("--------------FIM-------------\n");
+        CalculadorComposicao.getLista().forEach((Composicao item) -> {
+            System.out.println("------------------------------");
+            System.out.println(item.toString());
+        });
+        System.out.println("--------------FIM-------------\n");
     }
     
     @Test
@@ -147,9 +151,30 @@ public class CalculadorComposicaoTest {
         System.out.println("testAgrupaItensComposicao():");
         CalculadorComposicao.populaLista(CalculadorComposicao.leArquivoEntrada("entrada.json"));
         CalculadorComposicao.totalizaItensComposicao();
+        ArrayList<Double> expResult = new ArrayList<>();
+        expResult.add(28.731000);
+        expResult.add(289.981900);
+        expResult.add(128.613880);
+        expResult.add(0.220000);
+        expResult.add(1.250000);
         Map<Long, Double> result = CalculadorComposicao.agrupaItensComposicao();
         assertNotNull(CalculadorComposicao.agrupaItensComposicao());
-        
+        //DEBUG PRINT:
+        CalculadorComposicao.getLista().forEach((Composicao item) -> {
+            System.out.println("------------------------------");
+            System.out.println(item.toString());
+        });
+        System.out.println("--------------FIM-------------\n");
+        //DEBUG PRINT:
+        for (Iterator<Map.Entry<Long, Double>> iterator = result.entrySet().iterator(); iterator.hasNext();) 
+        {
+            Map.Entry<Long, Double> next = iterator.next();
+            //DEBUG PRINT:
+            System.out.println("------------------------------");
+            String str = String.format("%d: %f", next.getKey(), next.getValue());
+            System.out.println(str);
+        }
+        System.out.println("--------------FIM-------------\n");
     }
 
     ArrayList<Composicao> ordenaListaCrescente(ArrayList<Composicao> listaDesordenada) {

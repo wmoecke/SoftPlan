@@ -117,19 +117,14 @@ public class ComposicaoTest {
                 "0,0190000",
                 "9,40"
         );
-        String expResult = "codigoComposicao: 94793\n"
-                + "descricaoComposicao: REGISTRO DE GAVETA BRUTO, LATÃO, ROSCÁVEL, "
+        String expResult = "94793 "
+                + "REGISTRO DE GAVETA BRUTO, LATÃO, ROSCÁVEL, "
                         + "1 1/4, COM ACABAMENTO E CANOPLA CROMADOS, "
                         + "INSTALADO EM RESERVAÇÃO DE ÁGUA DE EDIFICAÇÃO "
                         + "QUE POSSUA RESERVATÓRIO DE FIBRA/FIBROCIMENTO "
-                        + "FORNECIMENTO E INSTALAÇÃO. AF_06/2016\n"
-                + "unidadeComposicao: UN\n"
-                + "tipoItem: INSUMO\n"
-                + "codigoItem: 3148\n"
-                + "descricaoItemComposicao: FITA VEDA ROSCA EM ROLOS DE 18 MM X 50 M (L X C)\n"
-                + "unidadeItem: UN\n"
-                + "quantidadeComposicao: 0,0190000\n"
-                + "valorUnitario: 9,40\n";
+                        + "FORNECIMENTO E INSTALAÇÃO. AF_06/2016 "
+                + "UN "
+                + "9,40";
         String result = instance.toString();
         System.out.println(result);
         assertEquals(expResult, result);
