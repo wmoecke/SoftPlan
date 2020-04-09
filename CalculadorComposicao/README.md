@@ -5,3 +5,11 @@
 * Muitas das funcionalidades da lógica escrita na classe `Helpers` empregam os métodos de `.stream()` para realizar operações como navegar pelas coleções, buscar um item, filtrar, totalizar e agrupar. Um grande esforço foi feito para reduzir ao máximo as iterações, buscando sempre pela otimização dos algoritmos. Isso posto, julgou-se necessário utilizar de uma função recursiva (`buscaInsumos()`), uma vez que é possível termos um item de composição sendo ele próprio, uma composição de outros itens, e assim por diante.
 * Nos métodos de teste `testBuscaComposicao()`, `testBuscaInsumos()` e `testCriaComposicao()` da classe `Helpers`, encontrou-se alguma dificuldade na validação quando efetuando comparações entre dois objetos populados. Apesar de terem sido efetuados diversos testes em _debug_, sempre que se inspecionava as variáveis `result` e `expResult`, os objetos armazenados nestas eram iguais (tipo e conteúdo). Como não foi possível determinar-se a causa desse problema, e em função do prazo para entrega desta demanda, optou-se por comparar as saídas serializadas de ambos os objetos.
 * Alguns métodos requerem entrada a partir de um arquivo externo (`entrada.json` e `insumosTeste.json`). Os mesmos foram também disponibilizados a fim de permitir a execução da aplicação/testes sem qualquer empecilho.
+* Para a saída da aplicação, não foi levado em conta qualquer tipo de ordenação dos itens apresentados na console, uma vez que não foi notada qualquer ordem específica no modelo fornecido. Contudo, se for desejado é possível ordenar os itens, empregando-se o método `.sorted()`, como no exemplo:
+```
+    ArrayList<Composicao> ret;
+    ret = (ArrayList<Composicao>) listaDesordenada.stream()
+            .sorted(Comparator.comparingLong(Composicao::getCodigoComposicao))
+            .collect(Collectors.toList());
+    return ret;
+```
