@@ -1,7 +1,7 @@
-/**
- *
- * Classe de testes automatizados para as Classes
- * CalculadorComposicao e Composicao
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
 package calculadorcomposicao;
 
@@ -10,12 +10,10 @@ import org.junit.runners.Suite;
 
 /**
  *
- * Suite de testes das classes de teste 
- * CalculadorComposicaoTest e ComposicaoTest
  * @author Werner
  */
 @RunWith(Suite.class)
-@Suite.SuiteClasses({calculadorcomposicao.ComposicaoTest.class, calculadorcomposicao.CalculadorComposicaoTest.class})
+@Suite.SuiteClasses({calculadorcomposicao.HelpersTest.class, calculadorcomposicao.CalculadorComposicaoTest.class})
 public class AllTests {
     
 }

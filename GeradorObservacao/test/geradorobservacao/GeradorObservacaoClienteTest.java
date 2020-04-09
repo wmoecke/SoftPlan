@@ -22,9 +22,6 @@ public class GeradorObservacaoClienteTest {
     
     private GeradorObservacaoCliente instance = null;
     
-    public GeradorObservacaoClienteTest() {
-    }
-    
     @Before
     public void setUp() {
         instance = new GeradorObservacaoCliente();
@@ -40,28 +37,26 @@ public class GeradorObservacaoClienteTest {
     //Primeiro testamos com uma lista não inicializada
     @Test
     public void testAchaSeparadorListaNula() {
-        System.out.println("testAchaSeparadorListaNula():");
+        System.out.println("achaSeparadorListaNula()");
         List<Pair<Integer, Double>> lista = null;
         String expResult = "";
         String result = instance.achaSeparador(lista);
-        System.out.println(result + '\n');
         assertEquals(expResult, result);
     }
 
     //A seguir, testamos com uma lista vazia
     @Test
     public void testAchaSeparadorListaVazia() {
-        System.out.println("testAchaSeparadorListaVazia():");
+        System.out.println("achaSeparadorListaVazia()");
         List<Pair<Integer, Double>> lista = Collections.emptyList();
         String expResult = "";
         String result = instance.achaSeparador(lista);
-        System.out.println(result + '\n');
         assertEquals(expResult, result);
     }
 
     @Test
     public void testAchaSeparadorUmaNota() {
-        System.out.println("testAchaSeparadorUmaNota():");
+        System.out.println("achaSeparadorUmaNota():");
         List<Pair<Integer, Double>> lista;
         lista = Arrays.asList(
                 new Pair<Integer, Double>(1, 10.0)
@@ -74,7 +69,7 @@ public class GeradorObservacaoClienteTest {
 
     @Test
     public void testGeraObservacaoUmaNota() {
-        System.out.println("testGeraObservacaoUmaNota():");
+        System.out.println("geraObservacaoUmaNota():");
         List<Pair<Integer, Double>> lista;
         lista = Arrays.asList(
                 new Pair<Integer, Double>(1, 10.0)
@@ -88,7 +83,7 @@ public class GeradorObservacaoClienteTest {
     
     @Test
     public void testAchaSeparadorVariasNotas() {
-        System.out.println("testAchaSeparadorVariasNotas():");
+        System.out.println("achaSeparadorVariasNotas():");
         List<Pair<Integer, Double>> lista = Arrays.asList(
                 new Pair<Integer, Double>(1, 10.0), 
                 new Pair<Integer, Double>(2, 35.0), 
@@ -109,7 +104,7 @@ public class GeradorObservacaoClienteTest {
 
     @Test
     public void testGeraObservacaoVariasNotas() {
-        System.out.println("testGeraObservacaoVariasNotas():");
+        System.out.println("geraObservacaoVariasNotas():");
         List<Pair<Integer, Double>> lista = Arrays.asList(
                 new Pair<Integer, Double>(1, 10.0), 
                 new Pair<Integer, Double>(2, 35.0), 

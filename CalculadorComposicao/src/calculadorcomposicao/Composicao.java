@@ -14,9 +14,9 @@ import java.util.Locale;
  * @author Werner
  */
 class Composicao {
-    private Long codigoComposicao;
-    private String descricaoComposicao;
-    private String unidadeComposicao;
+    private final Long codigoComposicao;
+    private final String descricaoComposicao;
+    private final String unidadeComposicao;
     private final String tipoItem;
     private final Long codigoItem;
     private final String descricaoItemComposicao;
@@ -30,9 +30,6 @@ class Composicao {
     public Long getCodigoComposicao() {
         return this.codigoComposicao;
     }
-//    public void setCodigoComposicao(Long valor) {
-//        this.codigoComposicao = valor;
-//    }
 
     /**
      * Descrição Composicao
@@ -40,9 +37,6 @@ class Composicao {
     public String getDescricaoComposicao() {
         return this.descricaoComposicao;
     }
-//    public void setDescricaoComposicao(String valor) {
-//        this.descricaoComposicao = valor;
-//    }
     
     /**
      * Unidade Composicao
@@ -50,9 +44,6 @@ class Composicao {
     public String getUnidadeComposicao() {
         return this.unidadeComposicao;
     }
-//    public void setUnidadeComposicao(String valor) {
-//        this.unidadeComposicao = valor;
-//    }
     
     /**
      * Tipo Item

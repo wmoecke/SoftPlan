@@ -21,9 +21,6 @@ public class GeradorObservacaoTest {
     
     private GeradorObservacao instance = null;
     
-    public GeradorObservacaoTest() {
-    }
-    
     @Before
     public void setUp() {
         instance = new GeradorObservacao();
@@ -39,28 +36,26 @@ public class GeradorObservacaoTest {
     //Primeiro testamos com uma lista não inicializada
     @Test
     public void testAchaSeparadorListaNula() {
-        System.out.println("testAchaSeparadorListaNula():");
+        System.out.println("achaSeparadorListaNula()");
         List<Integer> lista = null;
         String expResult = "";
         String result = instance.achaSeparador(lista);
-        System.out.println(result + '\n');
         assertEquals(expResult, result);
     }
 
     //A seguir, testamos com uma lista vazia
     @Test
     public void testAchaSeparadorListaVazia() {
-        System.out.println("testAchaSeparadorListaVazia():");
+        System.out.println("achaSeparadorListaVazia()");
         List<Integer> lista = Collections.emptyList();
         String expResult = "";
         String result = instance.achaSeparador(lista);
-        System.out.println(result + '\n');
         assertEquals(expResult, result);
     }
 
     @Test
     public void testAchaSeparadorUmaNota() {
-        System.out.println("testAchaSeparadorUmaNota():");
+        System.out.println("achaSeparadorUmaNota():");
         List lista = Arrays.asList(1);
         String expResult = "1";
         String result = instance.achaSeparador(lista);
@@ -70,7 +65,7 @@ public class GeradorObservacaoTest {
 
     @Test
     public void testGeraObservacaoUmaNota() {
-        System.out.println("testGeraObservacaoUmaNota():");
+        System.out.println("geraObservacaoUmaNota():");
         List lista = Arrays.asList(1);
         String expResult = "Fatura da nota fiscal de simples remessa: 1.";
         String result = instance.geraObservacao(lista);
@@ -80,7 +75,7 @@ public class GeradorObservacaoTest {
     
     @Test
     public void testAchaSeparadorVariasNotas() {
-        System.out.println("testAchaSeparadorVariasNotas():");
+        System.out.println("achaSeparadorVariasNotas():");
         List lista = Arrays.asList(1, 2, 3, 4, 5);
         String expResult = "1, 2, 3, 4 e 5";
         String result = instance.achaSeparador(lista);
@@ -90,7 +85,7 @@ public class GeradorObservacaoTest {
 
     @Test
     public void testGeraObservacaoVariasNotas() {
-        System.out.println("testGeraObservacaoVariasNotas():");
+        System.out.println("geraObservacaoVariasNotas():");
         List lista = Arrays.asList(1, 2, 3, 4, 5);
         String expResult = "Fatura das notas fiscais de simples remessa: 1, 2, 3, 4 e 5.";
         String result = instance.geraObservacao(lista);
