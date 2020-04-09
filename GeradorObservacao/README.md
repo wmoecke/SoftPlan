@@ -14,6 +14,8 @@
     Isso posto, outra desvantagem é que não é mais possível deixar os métodos da classe `GeradorObservacao` original totalmente inalterados, pois foi necessário alterar o modificador de acesso original do método `String retornaCodigos(List lista)` de `private` para `public`, para viabilizar o _override_ do método `public String achaSeparador(List lista)`.
     
 * Na saída, a string do enunciado pede, conforme exemplo:
-    * "Fatura da nota fiscal de simples remessa: 1 cujo valor é **R$** 10,00. Total = 10,00."
+
+    "Fatura da nota fiscal de simples remessa: 1 cujo valor é **R$** 10,00. Total = 10,00."
 (Notar que o valor "Total" não é precedido por "_R$_").
-    * Porém, no código ficou este valor precedido por "_R$_", uma vez que o formatador utilizado na localização dos valores é o mesmo, o qual cumpre não somente a função de colocar os separadores numéricos (milhar, decimal, etc) mas também se encarrega de preceder cada valor com o indicador da moeda local. Se fosse requerimento absoluto que apenas o valor total não fosse precedido pelo "_R$_", então seria necessário uma outra instância do formatador, com parâmetros ligeiramente diferentes, armazenada em uma variável separada.
+
+    Porém, no código ficou este valor precedido por "_R$_", uma vez que o formatador utilizado na localização dos valores é o mesmo, o qual cumpre não somente a função de colocar os separadores numéricos (milhar, decimal, etc) mas também se encarrega de preceder cada valor com o indicador da moeda local. Se fosse requerimento absoluto que apenas o valor total não fosse precedido pelo "_R$_", então seria necessário uma outra instância do formatador, com parâmetros ligeiramente diferentes, armazenada em uma variável separada.
