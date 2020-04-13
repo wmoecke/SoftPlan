@@ -25,7 +25,7 @@ import org.json.simple.parser.ParseException;
  */
 public class Helpers {
 
-    private final static ArrayList<Composicao> lista = new ArrayList<>();
+    private final static ArrayList<Composicao> lista = new ArrayList<Composicao>();
 
     /**
      * @return ArrayList<Composicao> lista
@@ -100,7 +100,7 @@ public class Helpers {
     
     static ArrayList<Composicao> buscaInsumos(Composicao itemComposicao) 
     {
-        ArrayList<Composicao> tmp, ret, ins = new ArrayList<>();
+        ArrayList<Composicao> tmp, ret, ins = new ArrayList<Composicao>();
         tmp = (ArrayList<Composicao>) lista.stream().filter(c -> Objects
                 .equals(c.getCodigoComposicao(), itemComposicao.getCodigoItem()))
                 .collect(Collectors.toList());
