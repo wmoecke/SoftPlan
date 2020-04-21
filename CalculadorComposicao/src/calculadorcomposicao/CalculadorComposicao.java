@@ -14,12 +14,13 @@ public class CalculadorComposicao {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        Helpers helpers = new Helpers();
         String path = "src/calculadorcomposicao/entrada.json";
-        Helpers.populaLista(Helpers.leArquivoEntrada(path));
-        Helpers.totalizaItensComposicao();
-        Helpers.agrupaItensPorComposicao().entrySet().stream().forEach((item) -> 
+        helpers.populaLista(helpers.leArquivoEntrada(path));
+        helpers.totalizaItensComposicao();
+        helpers.agrupaItensPorComposicao().entrySet().stream().forEach((item) -> 
         {
-            Composicao c = Helpers.buscaComposicao(item);
+            Composicao c = helpers.buscaComposicao(item);
             if (c != null) {
                 c.setValorUnitario(item.getValue());
                 System.out.println(c.toString());

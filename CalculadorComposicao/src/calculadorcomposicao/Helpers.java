@@ -8,33 +8,36 @@ package calculadorcomposicao;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 /**
  *
  * @author Werner
  */
-public class Helpers {
+public class Helpers implements CalculadorComposicaoHelpersInterface {
 
     private final static ArrayList<Composicao> lista = new ArrayList<Composicao>();
 
     /**
      * @return ArrayList<Composicao> lista
      */
-    public static ArrayList<Composicao> getLista() {
+    public ArrayList<Composicao> getLista() {
         return lista;
     }
     
-    static void populaLista(JSONArray entrada) {
+    void populaLista(JSONArray entrada) {
         lista.clear();
         for (Iterator<JSONObject> iterator = entrada.iterator(); 
                 iterator.hasNext();)
@@ -44,7 +47,10 @@ public class Helpers {
         }
     }
     
-    static Composicao criaComposicao(Map e) {
+    Composicao criaComposicao(Map e) {
+        Double valorUnitario, quantidadeComposicao;
+        valorUnitario = converteValor((String) e.getOrDefault("valorUnitario", ""));
+        quantidadeComposicao = converteValor((String) e.getOrDefault("quantidadeComposicao", ""));
         return new Composicao
             (
                 (Long)   e.getOrDefault("codigoComposicao", 0L),
@@ -54,38 +60,46 @@ public class Helpers {
                 (Long)   e.getOrDefault("codigoItem", 0L),
                 (String) e.getOrDefault("descricaoItemComposicao", ""),
                 (String) e.getOrDefault("unidadeItem", ""),
-                (String) e.getOrDefault("quantidadeComposicao", ""),
-                (String) e.getOrDefault("valorUnitario", "")
+                quantidadeComposicao,
+                valorUnitario
             );
+    }
+    
+    Double converteValor(String valor) {
+        DecimalFormat df = new DecimalFormat("0.00", new DecimalFormatSymbols(new Locale("pt","BR")));
+        try {
+            return (Double) df.parse(valor).doubleValue();
+        } catch (ParseException e) {
+            return 0d;
+        }
     }
     
     /**
      * 
      * @param path o caminho do arquivo de entrada
+     * @return objeto JSONArray que o parse tratou do arquivo
      */
-    static JSONArray leArquivoEntrada(String path) {
+    @Override
+    public JSONArray leArquivoEntrada(String path) {
         JSONArray entrada;
-        //Cria o parse de tratamento
         JSONParser parser = new JSONParser();
         try {
-            //Salva no objeto JSONArray o que o parse tratou do arquivo
             entrada = (JSONArray) parser.parse(new FileReader(
                     path));
             return entrada;
         } 
-        //Trata as exceptions que podem ser lançadas no decorrer do processo
         catch (FileNotFoundException e) {
             System.out.println("Arquivo de entrada não encontrado!");
             System.out.println("Caminho do arquivo: " + path);
             System.out.println(e.getMessage());
             return null;
-        } catch (IOException | ParseException e) {
+        } catch (IOException | org.json.simple.parser.ParseException e) {
             System.out.println(e.getMessage());
             return null;
         }
     }
     
-    static void totalizaItensComposicao() {
+    void totalizaItensComposicao() {
         lista.forEach(next -> {
             Double vt = next.getValorUnitario();
             ArrayList<Composicao> insumos = buscaInsumos(next);
@@ -98,7 +112,7 @@ public class Helpers {
         });
     }
     
-    static ArrayList<Composicao> buscaInsumos(Composicao itemComposicao) 
+    ArrayList<Composicao> buscaInsumos(Composicao itemComposicao) 
     {
         ArrayList<Composicao> tmp, ret, ins = new ArrayList<Composicao>();
         tmp = (ArrayList<Composicao>) lista.stream().filter(c -> Objects
@@ -119,7 +133,7 @@ public class Helpers {
         return ret;
     }
     
-    static Map<Long, Double> agrupaItensPorComposicao() {
+    Map<Long, Double> agrupaItensPorComposicao() {
         Map<Long, Double> ret = lista.stream().collect(Collectors
                 .groupingBy(Composicao::getCodigoComposicao, 
                         Collectors.summingDouble(Composicao::
@@ -127,7 +141,7 @@ public class Helpers {
         return ret;
     }
     
-    static Composicao buscaComposicao(Map.Entry<Long, Double> item) {
+    Composicao buscaComposicao(Map.Entry<Long, Double> item) {
         return (Composicao) lista.stream()
                 .filter(c -> Objects.equals(c.getCodigoComposicao(), 
                         item.getKey())).findFirst().get();

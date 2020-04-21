@@ -13,8 +13,10 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.junit.After;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Before;
 
 /**
  *
@@ -22,6 +24,17 @@ import static org.junit.Assert.*;
  */
 public class HelpersTest {
 
+    private Helpers helpers = null;
+    
+    @Before
+    public void setUp() {
+        helpers = new Helpers();
+    }
+    
+    @After
+    public void tearDown() {
+        helpers = null;
+    }
     /**
      * Teste do método getLista, da classe Helpers.
      */
@@ -30,8 +43,8 @@ public class HelpersTest {
         System.out.println("getLista()");
         ArrayList<Composicao> expResult = new ArrayList<>();
         //Limpamos a lista
-        Helpers.getLista().clear();
-        ArrayList<Composicao> result = Helpers.getLista();
+        helpers.getLista().clear();
+        ArrayList<Composicao> result = helpers.getLista();
         //Antes de popular a lista (lista vazia)
         assertNotNull(result);
         assertTrue(result.isEmpty());
@@ -44,9 +57,9 @@ public class HelpersTest {
     public void testPopulaLista() {
         System.out.println("populaLista()");
         String path = "src/calculadorcomposicao/entrada.json";
-        JSONArray entrada = Helpers.leArquivoEntrada(path);
-        Helpers.populaLista(entrada);
-        ArrayList<Composicao> result = Helpers.getLista();
+        JSONArray entrada = helpers.leArquivoEntrada(path);
+        helpers.populaLista(entrada);
+        ArrayList<Composicao> result = helpers.getLista();
         //Depois de popular a lista (lista preenchida)
         assertNotNull(result);
         assertTrue(!result.isEmpty());
@@ -68,6 +81,10 @@ public class HelpersTest {
         e.put("unidadeItem", "UN");
         e.put("quantidadeComposicao", "0,0190000");
         e.put("valorUnitario", "9,40");
+        
+        Double valorUnitario, quantidadeComposicao;
+        valorUnitario = helpers.converteValor((String) e.getOrDefault("valorUnitario", ""));
+        quantidadeComposicao = helpers.converteValor((String) e.getOrDefault("quantidadeComposicao", ""));
         Composicao expResult = new Composicao
             (
                 (Long)   e.getOrDefault("codigoComposicao", 0L),
@@ -77,10 +94,10 @@ public class HelpersTest {
                 (Long)   e.getOrDefault("codigoItem", 0L),
                 (String) e.getOrDefault("descricaoItemComposicao", ""),
                 (String) e.getOrDefault("unidadeItem", ""),
-                (String) e.getOrDefault("quantidadeComposicao", ""),
-                (String) e.getOrDefault("valorUnitario", "")
+                quantidadeComposicao,
+                valorUnitario
             );
-        Composicao result = Helpers.criaComposicao(e);
+        Composicao result = helpers.criaComposicao(e);
         //assertEquals(expResult, result);
         String strResult = result.toString();
         String strExpResult = expResult.toString();
@@ -99,7 +116,7 @@ public class HelpersTest {
     public void testLeArquivoEntrada() {
         System.out.println("leArquivoEntrada():");
         String path = "src/calculadorcomposicao/entrada.json";
-        JSONArray result = Helpers.leArquivoEntrada(path);
+        JSONArray result = helpers.leArquivoEntrada(path);
         assertNotNull(result);
         assertTrue(!result.isEmpty());
         
@@ -120,7 +137,7 @@ public class HelpersTest {
     public void testTotalizaItensComposicao() {
         System.out.println("totalizaItensComposicao():");
         String path = "src/calculadorcomposicao/entrada.json";
-        Helpers.populaLista(Helpers.leArquivoEntrada(path));
+        helpers.populaLista(helpers.leArquivoEntrada(path));
         Composicao composicao = new Composicao(
                 98561L,
                 "IMPERMEABILIZAÇÃO DE PAREDES COM ARGAMASSA DE CIMENTO E AREIA, COM ADITIVO IMPERMEABILIZANTE, E = 2CM. AF_06/2018",
@@ -129,8 +146,8 @@ public class HelpersTest {
                 87286L,
                 "ARGAMASSA TRAÇO 1:1:6 (CIMENTO, CAL E AREIA MÉDIA) PARA EMBOÇO/MASSA ÚNICA/ASSENTAMENTO DE ALVENARIA DE VEDAÇÃO, PREPARO MECÂNICO COM BETONEIRA 400 L. AF_06/2014",
                 "M3",
-                "0,0250000",
-                "0"
+                0.0250000,
+                0d
         );
         Double expResult, result;
         Composicao resultEquals = getComposicao(composicao);
@@ -138,15 +155,15 @@ public class HelpersTest {
         result = resultEquals.getValorUnitario();
         //Testa valor antes da totalização
         assertEquals(expResult, result);
-        Helpers.totalizaItensComposicao();
+        helpers.totalizaItensComposicao();
         resultEquals = getComposicao(composicao);
-        expResult = 289.1;
+        expResult = 289.10420000000005;
         result = resultEquals.getValorUnitario();
         //Testa valor depois da totalização
         assertEquals(expResult, result);
         
         //DEBUG PRINT:
-        Helpers.getLista().forEach((Composicao item) -> {
+        helpers.getLista().forEach((Composicao item) -> {
             System.out.println("------------------------------");
             System.out.println(item.toString());
         });
@@ -167,21 +184,21 @@ public class HelpersTest {
                 87286L,
                 "ARGAMASSA TRAÇO 1:1:6 (CIMENTO, CAL E AREIA MÉDIA) PARA EMBOÇO/MASSA ÚNICA/ASSENTAMENTO DE ALVENARIA DE VEDAÇÃO, PREPARO MECÂNICO COM BETONEIRA 400 L. AF_06/2014",
                 "M3",
-                "0,0250000",
-                ""
+                0.0250000,
+                0d
         );
         String path = "src/calculadorcomposicao/entrada.json";
-        Helpers.populaLista(Helpers.leArquivoEntrada(path));
+        helpers.populaLista(helpers.leArquivoEntrada(path));
         path = "test/calculadorcomposicao/insumosTeste.json";
-        JSONArray insumosTeste = Helpers.leArquivoEntrada(path);
+        JSONArray insumosTeste = helpers.leArquivoEntrada(path);
         ArrayList<Composicao> expResult = new ArrayList<>();
         for (Iterator<JSONObject> iterator = insumosTeste.iterator(); iterator.hasNext();)
         {
             JSONObject next = iterator.next();
-            Composicao c = Helpers.criaComposicao(next);
+            Composicao c = helpers.criaComposicao(next);
             expResult.add(c);
         }
-        ArrayList<Composicao> result = Helpers.buscaInsumos(itemComposicao);
+        ArrayList<Composicao> result = helpers.buscaInsumos(itemComposicao);
         //ordenaListaCrescente(result);
         //assertEquals(expResult, result);
         String strResult = result.toString();
@@ -203,15 +220,15 @@ public class HelpersTest {
     public void testAgrupaItensPorComposicao() {
         System.out.println("agrupaItensPorComposicao()");
         String path = "src/calculadorcomposicao/entrada.json";
-        Helpers.populaLista(Helpers.leArquivoEntrada(path));
-        Helpers.totalizaItensComposicao();
+        helpers.populaLista(helpers.leArquivoEntrada(path));
+        helpers.totalizaItensComposicao();
         Map<Long, Double> expResult = new HashMap<>();
-        expResult.put(98561L, 28.730999999999998);
+        expResult.put(98561L, 28.731105000000003);
         expResult.put(87286L, 289.9819);
         expResult.put(94793L, 128.61388);
         expResult.put(88831L, 0.22);
         expResult.put(88830L, 1.25);
-        Map<Long, Double> result = Helpers.agrupaItensPorComposicao();
+        Map<Long, Double> result = helpers.agrupaItensPorComposicao();
         assertEquals(expResult, result);
     }
 
@@ -222,8 +239,8 @@ public class HelpersTest {
     public void testBuscaComposicao() {
         System.out.println("buscaComposicao()");
         String path = "src/calculadorcomposicao/entrada.json";
-        Helpers.populaLista(Helpers.leArquivoEntrada(path));
-        Helpers.totalizaItensComposicao();
+        helpers.populaLista(helpers.leArquivoEntrada(path));
+        helpers.totalizaItensComposicao();
         Map<Long, Double> e = new HashMap<>();
         e.put(98561L, 28.73);
         Map.Entry<Long, Double> item = e.entrySet().iterator().next();
@@ -235,9 +252,9 @@ public class HelpersTest {
                 7325L,
                 "ADITIVO IMPERMEABILIZANTE DE PEGA NORMAL PARA ARGAMASSAS E  CONCRETOS SEM ARMACAO",
                 "KG",
-                "0,3870000",
-                "4,44");
-        Composicao result = Helpers.buscaComposicao(item);
+                0.3870000,
+                4.44);
+        Composicao result = helpers.buscaComposicao(item);
         //assertEquals(expResult, result);
         String strResult = result.toString();
         String strExpResult = expResult.toString();
@@ -245,7 +262,7 @@ public class HelpersTest {
     }
     
     Composicao getComposicao(Composicao item) {
-        return (Composicao) Helpers.getLista().stream()
+        return (Composicao) helpers.getLista().stream()
                 .filter(c -> Objects.equals(c.getCodigoComposicao(), 
                         item.getCodigoComposicao()) &&
                         Objects.equals(c.getCodigoItem(), 

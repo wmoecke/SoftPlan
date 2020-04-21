@@ -6,14 +6,13 @@ package calculadorcomposicao;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
-import java.text.ParseException;
 import java.util.Locale;
 
 /**
  *
  * @author Werner
  */
-class Composicao {
+class Composicao implements CalculadorComposicaoInterface {
     private final Long codigoComposicao;
     private final String descricaoComposicao;
     private final String unidadeComposicao;
@@ -21,8 +20,8 @@ class Composicao {
     private final Long codigoItem;
     private final String descricaoItemComposicao;
     private final String unidadeItem;
-    private final String quantidadeComposicao;
-    private String valorUnitario;
+    private final Double quantidadeComposicao;
+    private Double valorUnitario;
 
     /**
      * Código Composicao
@@ -77,43 +76,24 @@ class Composicao {
      * Quantidade Composição
      */
     public Double getQuantidadeComposicao() {
-        DecimalFormat df = new DecimalFormat("0.00", new DecimalFormatSymbols(new Locale("pt","BR")));
-        try {
-            return (Double) df.parse(this.quantidadeComposicao).doubleValue();
-        } catch (ParseException ex) {
-            return 0d;
-        }
+        return this.quantidadeComposicao;
     }
     
     /**
      * Valor Unitário
      */
     public Double getValorUnitario() {
-        DecimalFormat df = new DecimalFormat("0.00", new DecimalFormatSymbols(new Locale("pt","BR")));
-        try {
-            return (Double) df.parse(this.valorUnitario).doubleValue();
-        } catch (ParseException ex) {
-            return 0d;
-        }
+        return this.valorUnitario;
     }
     public void setValorUnitario(Double valor) {
-        DecimalFormat df = new DecimalFormat("0.00", new DecimalFormatSymbols(new Locale("pt","BR")));
-        this.valorUnitario = df.format(valor);
+        this.valorUnitario = valor;
     }
     
     /**
      * @return Double Valor Unitário * Quantidade
      */
     public Double getValorComposicao() {
-        DecimalFormat df = new DecimalFormat("0.00", new DecimalFormatSymbols(new Locale("pt","BR")));
-        Double v, q;
-        try {
-            v = (Double) df.parse(this.valorUnitario).doubleValue();
-            q = (Double) df.parse(this.quantidadeComposicao).doubleValue();
-            return v * q;
-        } catch (ParseException ex) {
-            return 0d;
-        }
+        return this.valorUnitario * this.quantidadeComposicao;
     }
     
     /**
@@ -128,8 +108,8 @@ class Composicao {
         this.codigoItem = 0L;
         this.descricaoItemComposicao = "";
         this.unidadeItem = "";
-        this.quantidadeComposicao = "0";
-        this.valorUnitario = "0";
+        this.quantidadeComposicao = 0d;
+        this.valorUnitario = 0d;
     }
     
     /**
@@ -144,8 +124,8 @@ class Composicao {
             Long codItem,
             String desItCom,
             String unItem,
-            String qtdeCom,
-            String vlrUn
+            Double qtdeCom,
+            Double vlrUn
         ) 
     {
         this.codigoComposicao = codCom;
@@ -155,17 +135,18 @@ class Composicao {
         this.codigoItem = codItem;
         this.descricaoItemComposicao = desItCom;
         this.unidadeItem = unItem;
-        this.quantidadeComposicao = (qtdeCom == null || qtdeCom.trim().isEmpty()) ? "0" : qtdeCom;
-        this.valorUnitario = (vlrUn == null || vlrUn.trim().isEmpty()) ? "0" : vlrUn;
+        this.quantidadeComposicao = qtdeCom == null ? 0d : qtdeCom;
+        this.valorUnitario =  vlrUn == null ? 0d : vlrUn;
     }
 
     @Override
     public String toString() { 
+        DecimalFormat df = new DecimalFormat("0.00", new DecimalFormatSymbols(new Locale("pt","BR")));
         StringBuilder ret = new StringBuilder();
         ret.append(String.format("%s ", this.codigoComposicao.toString()));
         ret.append(String.format("%s ", this.descricaoComposicao));
         ret.append(String.format("%s ", this.unidadeComposicao));
-        ret.append(String.format("%s", this.valorUnitario));
+        ret.append(String.format("%s", df.format(this.valorUnitario)));
         return ret.toString();
     }
 }

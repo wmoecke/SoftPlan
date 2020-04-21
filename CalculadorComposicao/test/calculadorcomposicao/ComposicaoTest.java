@@ -27,8 +27,8 @@ public class ComposicaoTest {
                 3148L,
                 "FITA VEDA ROSCA EM ROLOS DE 18 MM X 50 M (L X C)",
                 "UN",
-                "0,0190000",
-                "9,40"
+                0.0190000,
+                9.4
             );
     }
     
