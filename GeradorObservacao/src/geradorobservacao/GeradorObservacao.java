@@ -41,7 +41,6 @@ public class GeradorObservacao
         return texto + achaSeparador(lista);
     }
     
-    //Acha separador
     @Override
     public String achaSeparador(List lista) {
         if (lista == null || lista.isEmpty())
@@ -49,16 +48,16 @@ public class GeradorObservacao
         
         StringBuilder cod = new StringBuilder();
         for (Iterator<Integer> iterator = lista.iterator(); iterator.hasNext();) {
-            Integer c = iterator.next();
-            String s = "";
+            Integer codigo = iterator.next();
+            String separador = "";
             if( cod.toString() == null || cod.toString().length() <= 0 )
-                s =  "";
+                separador =  "";
             else if( iterator.hasNext() )
-                s =  ", ";
+                separador =  ", ";
             else
-                s =  " e ";
+                separador =  " e ";
 
-            cod.append(s + c);
+            cod.append(separador + codigo);
         }
         return cod.toString();
     }
